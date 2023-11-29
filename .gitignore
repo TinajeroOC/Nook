@@ -13,6 +13,10 @@
 /.next/
 /out/
 
+# pocketbase
+src/pocketbase/*
+!src/pocketbase/pb_migrations
+
 # production
 /build
 
