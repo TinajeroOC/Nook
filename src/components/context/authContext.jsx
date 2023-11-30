@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
     })
   }, [])
 
-  const register = useCallback(async (email, password) => {
-    return await pb.collection('users').create({ email, password, passwordConfirm: password })
+  const register = useCallback(async (name, email, password) => {
+    return await pb.collection('users').create({ name, email, password, passwordConfirm: password })
   }, [])
 
   const login = useCallback(async (email, password) => {
