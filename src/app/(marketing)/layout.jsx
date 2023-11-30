@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@nextui-org/react'
 import Footer from '@/components/layout/footer'
-import Providers from './providers'
-import './globals.css'
+import Providers from '../providers'
+import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,16 +22,18 @@ export default function RootLayout({ children }) {
             </NavbarBrand>
             <NavbarContent justify='end'>
               <NavbarItem className='hidden sm:flex'>
-                <Link href='#'>Login</Link>
+                <Link href='login'>Login</Link>
               </NavbarItem>
               <NavbarItem>
-                <Button as={Link} color='primary' href='#' variant='flat'>
+                <Button as={Link} color='primary' href='signup' variant='flat'>
                   Sign Up
                 </Button>
               </NavbarItem>
             </NavbarContent>
           </Navbar>
-          {children}
+          <main className='mx-auto flex min-h-screen w-full max-w-5xl flex-grow justify-center'>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>
