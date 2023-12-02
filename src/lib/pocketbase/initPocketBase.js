@@ -2,11 +2,13 @@ import PocketBase from 'pocketbase'
 
 class PocketBaseClient {
   constructor() {
-    this.client = new PocketBase('http://127.0.0.1:8090');
+    this.client = new PocketBase(process.env.PB_URL)
   }
 
   async register(name, email, password) {
-    return await this.client.collection('users').create({ name, email, password, passwordConfirm: password })
+    return await this.client
+      .collection('users')
+      .create({ name, email, password, passwordConfirm: password })
   }
 
   async login(email, password) {
