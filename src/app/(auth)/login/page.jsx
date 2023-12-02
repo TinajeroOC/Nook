@@ -1,9 +1,17 @@
 'use client'
 
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Link } from '@nextui-org/react'
 import { IconArrowRight, IconEye, IconEyeClosed } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as Yup from 'yup'
+
+const schema = Yup.object().shape({
+  email: Yup.string().email('Enter a valid email').required('Enter your email'),
+  password: Yup.string().required('Enter your password'),
+})
 
 export default function Page() {
   const [isPassVisible, setIsPassVisible] = useState(false)
@@ -11,8 +19,19 @@ export default function Page() {
   const [password, setPassword] = useState('')
   const router = useRouter()
 
-  const handleOnSubmit = async (event) => {
-    event?.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+  })
+
+  const onSubmit = async (event) => {
     try {
       await fetch('/api/auth/login', {
         method: 'POST',
@@ -33,11 +52,22 @@ export default function Page() {
           <CardHeader className='font-regular flex select-none justify-center text-2xl'>
             <h1>Log In</h1>
           </CardHeader>
-          <form onSubmit={handleOnSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <CardBody className='flex gap-4'>
-              <Input isRequired type='email' label='Email' onValueChange={setEmail} />
               <Input
+                {...register('email')}
                 isRequired
+                type='email'
+                label='Email'
+                color={errors?.email ? 'danger' : 'default'}
+                errorMessage={errors?.email?.message}
+                onValueChange={setEmail}
+              />
+              <Input
+                {...register('password')}
+                isRequired
+                type={isPassVisible ? 'text' : 'password'}
+                label='Password'
                 endContent={
                   <button
                     className='focus:outline-none'
@@ -45,14 +75,14 @@ export default function Page() {
                     onClick={() => setIsPassVisible(!isPassVisible)}
                   >
                     {isPassVisible ? (
-                      <IconEye color='black' stroke='1' />
+                      <IconEye color={errors?.password ? 'red' : 'black'} stroke='1' />
                     ) : (
-                      <IconEyeClosed color='black' stroke='1' />
+                      <IconEyeClosed color={errors?.password ? 'red' : 'black'} stroke='1' />
                     )}
                   </button>
                 }
-                type={isPassVisible ? 'text' : 'password'}
-                label='Password'
+                color={errors?.password ? 'danger' : 'default'}
+                errorMessage={errors?.password?.message}
                 onValueChange={setPassword}
               />
             </CardBody>
