@@ -15,7 +15,7 @@
 
 # pocketbase
 src/pocketbase/*
-!src/pocketbase/pb_migrations
+!src/pocketbase/config.json
 
 # production
 /build
