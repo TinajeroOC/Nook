@@ -6,11 +6,12 @@ export async function middleware(request) {
   const pb = await initPocketBaseServer()
   const isAuthenticated = pb.authStore.isValid
 
-  if (isAuthenticated) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
+  if (request.nextUrl.pathname.startsWith('/dashboard') && !isAuthenticated) {
+    return NextResponse.redirect(new URL('/', request.nextUrl.origin))
+  }
 
-    return NextResponse.rewrite(url)
+  if (!request.nextUrl.pathname.startsWith('/dashboard') && isAuthenticated) {
+    return NextResponse.redirect(new URL('/', request.nextUrl.origin))
   }
 }
 
