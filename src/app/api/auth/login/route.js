@@ -1,17 +1,18 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-import pb from '@/lib/pocketbase/initPocketBase'
+import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
 export async function POST(request) {
   try {
     const { email, password } = await request.json()
-    const { record, token } = await pb.authenticate(email, password)
+    const pb = await initPocketBaseServer()
 
-    record.token = token
-    cookies().set('pb_auth', pb.client.authStore.exportToCookie())
+    const result = await pb.collection('users').authWithPassword(email, password)
 
-    return NextResponse.json(record)
+    cookies().set('pb_auth', pb.authStore.exportToCookie())
+
+    return NextResponse.json(result)
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message || error.toString() }), {
       status: 500,

@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server'
 
-import pb from '@/lib/pocketbase/initPocketBase'
+import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
 export async function POST(request) {
   try {
     const { name, email, password } = await request.json()
-    const result = await pb.register(name, email, password)
+    const pb = await initPocketBaseServer()
+
+    const result = await pb
+      .collection('users')
+      .create({ name, email, password, passwordConfirm: password })
 
     return NextResponse.json(result)
   } catch (error) {
