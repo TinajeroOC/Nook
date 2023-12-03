@@ -18,19 +18,17 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
 import Footer from '@/components/layout/footer'
-import { useUserData } from '@/lib/hooks/useUserData'
+import { useAuthUser } from '@/lib/hooks/useAuthUser'
 
 export default function MarketingLayout({ children }) {
-  const user = useUserData()
+  const authUser = useAuthUser()
   const router = useRouter()
 
   const handleLogout = async () => {
     try {
       Cookies.remove('pb_auth')
       router.push('/login')
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   return (
@@ -40,7 +38,7 @@ export default function MarketingLayout({ children }) {
           <p className='select-none text-2xl font-light text-inherit'>Nook</p>
         </NavbarBrand>
         <NavbarContent justify='end'>
-          {user ? (
+          {authUser ? (
             <>
               <NavbarItem>
                 <Dropdown placement='bottom-end'>
@@ -52,16 +50,16 @@ export default function MarketingLayout({ children }) {
                       as='button'
                       className='transition-transform'
                       color='default'
-                      name={user.name}
+                      name={authUser.name}
                       size='sm'
                       src=''
                     />
                   </DropdownTrigger>
                   <DropdownMenu aria-label='Profile Actions' variant='flat'>
                     <DropdownItem isReadOnly key='summary' className='h-12 gap-2'>
-                      <p className='font-semibold'>{user.name.substring(0, 20)}</p>
+                      <p className='font-semibold'>{authUser.name.substring(0, 20)}</p>
                       <p className='text-xs font-light'>
-                        Joined {format(new Date(user.created), 'MMMM, yyyy')}
+                        Joined {format(new Date(authUser.created), 'MMMM, yyyy')}
                       </p>
                     </DropdownItem>
                     <DropdownItem key='dashboard' href='/dashboard'>

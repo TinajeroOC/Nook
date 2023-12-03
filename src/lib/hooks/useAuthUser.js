@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react'
 
 import pb from '../pocketbase/initPocketBase'
 
-export function useUserData() {
-  const [data, setData] = useState(null)
+export function useAuthUser() {
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const cookie = Cookies.get('pb_auth')
 
     async function fetchUser() {
-      setData(await pb.getUser(cookie))
+      setUser(pb.getAuthUser(cookie))
     }
 
     fetchUser()
   }, [])
 
-  return data
+  return user
 }

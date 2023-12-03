@@ -11,24 +11,35 @@ class PocketBaseClient {
       .create({ name, email, password, passwordConfirm: password })
   }
 
-  async login(email, password) {
+  async authenticate(email, password) {
     return await this.client.collection('users').authWithPassword(email, password)
   }
 
-  async isLoggedIn(cookie) {
+  isAuthenticated(cookie) {
     if (!cookie) return false
 
-    this.client.authStore.loadFromCookie(cookie || '')
+    this.client.authStore.loadFromCookie(cookie)
 
     return this.client.authStore.isValid
   }
 
-  async getUser(cookie) {
+  getAuthUser(cookie) {
     if (!cookie) return null
 
-    this.client.authStore.loadFromCookie(cookie || '')
+    this.client.authStore.loadFromCookie(cookie)
 
     return this.client.authStore.model
+  }
+
+  async getUser(username) {
+    await pb.client.admins.authWithPassword(
+      process.env.PB_ADMIN_EMAIL,
+      process.env.PB_ADMIN_PASSWORD
+    )
+
+    return await pb.client.collection('users').getFirstListItem(`username="${username}"`, {
+      expand: 'profile, profile.items',
+    })
   }
 }
 

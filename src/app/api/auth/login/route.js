@@ -6,7 +6,7 @@ import pb from '@/lib/pocketbase/initPocketBase'
 export async function POST(request) {
   try {
     const { email, password } = await request.json()
-    const { record, token } = await pb.login(email, password)
+    const { record, token } = await pb.authenticate(email, password)
 
     record.token = token
     cookies().set('pb_auth', pb.client.authStore.exportToCookie())
