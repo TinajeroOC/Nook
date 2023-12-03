@@ -1,5 +1,73 @@
 [
   {
+    "id": "yvtw11cw3s6hx2a",
+    "name": "items",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "system": false,
+        "id": "wolwma8l",
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": 64,
+          "pattern": ""
+        }
+      },
+      {
+        "system": false,
+        "id": "xpaj8vcn",
+        "name": "URL",
+        "type": "url",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "exceptDomains": [],
+          "onlyDomains": []
+        }
+      },
+      {
+        "system": false,
+        "id": "ablksmxd",
+        "name": "thumbnail",
+        "type": "file",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/png", "image/jpeg", "image/gif"],
+          "thumbs": [],
+          "protected": false
+        }
+      },
+      {
+        "system": false,
+        "id": "yujgwcd5",
+        "name": "isVisible",
+        "type": "bool",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {}
+      }
+    ],
+    "indexes": [],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
     "id": "_pb_users_auth_",
     "name": "users",
     "type": "auth",
@@ -33,6 +101,22 @@
           "mimeTypes": ["image/jpeg", "image/png", "image/svg+xml", "image/gif", "image/webp"],
           "thumbs": null,
           "protected": false
+        }
+      },
+      {
+        "system": false,
+        "id": "vcfz5keq",
+        "name": "profile",
+        "type": "relation",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "collectionId": "usyrruvqi9drw65",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": null
         }
       }
     ],
@@ -141,74 +225,22 @@
         "presentable": false,
         "unique": false,
         "options": {}
-      }
-    ],
-    "indexes": [],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "yvtw11cw3s6hx2a",
-    "name": "items",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "wolwma8l",
-        "name": "title",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": 64,
-          "pattern": ""
-        }
       },
       {
         "system": false,
-        "id": "xpaj8vcn",
-        "name": "URL",
-        "type": "url",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "exceptDomains": [],
-          "onlyDomains": []
-        }
-      },
-      {
-        "system": false,
-        "id": "ablksmxd",
-        "name": "thumbnail",
-        "type": "file",
+        "id": "a7ef0fij",
+        "name": "items",
+        "type": "relation",
         "required": false,
         "presentable": false,
         "unique": false,
         "options": {
-          "maxSelect": 1,
-          "maxSize": 5242880,
-          "mimeTypes": ["image/png", "image/jpeg", "image/gif"],
-          "thumbs": [],
-          "protected": false
+          "collectionId": "yvtw11cw3s6hx2a",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": null,
+          "displayFields": null
         }
-      },
-      {
-        "system": false,
-        "id": "yujgwcd5",
-        "name": "isVisible",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
       }
     ],
     "indexes": [],
