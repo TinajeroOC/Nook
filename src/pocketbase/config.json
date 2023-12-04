@@ -1,73 +1,5 @@
 [
   {
-    "id": "yvtw11cw3s6hx2a",
-    "name": "items",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "wolwma8l",
-        "name": "title",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": 64,
-          "pattern": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "xpaj8vcn",
-        "name": "URL",
-        "type": "url",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "exceptDomains": [],
-          "onlyDomains": []
-        }
-      },
-      {
-        "system": false,
-        "id": "ablksmxd",
-        "name": "thumbnail",
-        "type": "file",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "maxSelect": 1,
-          "maxSize": 5242880,
-          "mimeTypes": ["image/png", "image/jpeg", "image/gif"],
-          "thumbs": [],
-          "protected": false
-        }
-      },
-      {
-        "system": false,
-        "id": "yujgwcd5",
-        "name": "isVisible",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
-      }
-    ],
-    "indexes": [],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
     "id": "_pb_users_auth_",
     "name": "users",
     "type": "auth",
@@ -84,7 +16,7 @@
         "options": {
           "min": 2,
           "max": 64,
-          "pattern": ""
+          "pattern": "^[A-Za-z\\s]+$"
         }
       },
       {
@@ -138,6 +70,74 @@
     }
   },
   {
+    "id": "yvtw11cw3s6hx2a",
+    "name": "items",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "system": false,
+        "id": "wolwma8l",
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "min": 2,
+          "max": 64,
+          "pattern": "^[A-Za-z-0-9_]*$"
+        }
+      },
+      {
+        "system": false,
+        "id": "xpaj8vcn",
+        "name": "URL",
+        "type": "url",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "exceptDomains": [],
+          "onlyDomains": []
+        }
+      },
+      {
+        "system": false,
+        "id": "ablksmxd",
+        "name": "thumbnail",
+        "type": "file",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/png", "image/jpeg", "image/gif"],
+          "thumbs": [],
+          "protected": false
+        }
+      },
+      {
+        "system": false,
+        "id": "yujgwcd5",
+        "name": "isVisible",
+        "type": "bool",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {}
+      }
+    ],
+    "indexes": [],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
     "id": "usyrruvqi9drw65",
     "name": "profile",
     "type": "base",
@@ -183,7 +183,7 @@
         "unique": false,
         "options": {
           "min": null,
-          "max": 32,
+          "max": 16,
           "pattern": ""
         }
       },
