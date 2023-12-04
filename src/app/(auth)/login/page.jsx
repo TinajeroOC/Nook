@@ -48,7 +48,7 @@ export default function Page() {
   return (
     <>
       <div className='grid min-h-screen grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1'>
-        <div className='relative flex flex-col items-center justify-center gap-4 px-16'>
+        <div className='flex flex-col items-center justify-center gap-4 px-16 py-8'>
           <h1 className='mb-2 text-2xl font-semibold sm:text-4xl'>Log In</h1>
           <form className='w-full max-w-sm' onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className='flex flex-col gap-4'>
@@ -94,7 +94,7 @@ export default function Page() {
             </div>
           </footer>
         </div>
-        <div className='flex flex-col items-center justify-center bg-gradient-to-tl from-blue-700 to-blue-600 px-16 text-white'>
+        <div className='flex flex-col items-center justify-center bg-gradient-to-tl from-blue-700 to-blue-600 px-16 py-8 text-white'>
           <div className='flex max-w-lg flex-col items-start'>
             <a href='/' className='mb-4 text-2xl font-semibold sm:text-4xl'>
               Nook
