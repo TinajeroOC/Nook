@@ -4,12 +4,12 @@ import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
 export async function POST(request) {
   try {
-    const { name, email, password } = await request.json()
+    const { name, username, email, password } = await request.json()
     const pb = await initPocketBaseServer()
 
     const result = await pb
       .collection('users')
-      .create({ name, email, password, passwordConfirm: password })
+      .create({ name, username, email, password, passwordConfirm: password })
 
     return NextResponse.json(result)
   } catch (error) {
