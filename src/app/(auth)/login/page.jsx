@@ -1,8 +1,8 @@
 'use client'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, CardHeader, Input, Link } from '@nextui-org/react'
-import { IconArrowRight, IconEye, IconEyeClosed } from '@tabler/icons-react'
+import { Button, Input, Link } from '@nextui-org/react'
+import { IconArrowRight, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -47,13 +47,11 @@ export default function Page() {
 
   return (
     <>
-      <div className='flex flex-1 flex-col items-center justify-center py-12'>
-        <Card className='w-full max-w-sm'>
-          <CardHeader className='font-regular flex select-none justify-center text-2xl'>
-            <h1>Log In</h1>
-          </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            <CardBody className='flex gap-4'>
+      <div className='grid min-h-screen grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1'>
+        <div className='relative flex flex-col items-center justify-center gap-4 px-16'>
+          <h1 className='mb-2 text-2xl font-semibold sm:text-4xl'>Log In</h1>
+          <form className='w-full max-w-sm' onSubmit={handleSubmit(onSubmit)} noValidate>
+            <div className='flex flex-col gap-4'>
               <Input
                 {...register('email')}
                 isRequired
@@ -74,35 +72,40 @@ export default function Page() {
                     type='button'
                     onClick={() => setIsPassVisible(!isPassVisible)}
                   >
-                    {isPassVisible ? (
-                      <IconEye color={errors?.password ? 'red' : 'black'} stroke='1' />
-                    ) : (
-                      <IconEyeClosed color={errors?.password ? 'red' : 'black'} stroke='1' />
-                    )}
+                    {isPassVisible ? <IconEye size='20' /> : <IconEyeOff size='20' />}
                   </button>
                 }
                 color={errors?.password ? 'danger' : 'default'}
                 errorMessage={errors?.password?.message}
                 onValueChange={setPassword}
               />
-            </CardBody>
-            <CardFooter>
               <Button fullWidth='true' color='primary' type='submit'>
-                Log In
+                Log in to your account
               </Button>
-            </CardFooter>
+            </div>
           </form>
-        </Card>
-      </div>
-      <footer>
-        <div className='flex items-center justify-center gap-2 text-sm'>
-          <p>Don&rsquo;t have an account?</p>
-          <Button as={Link} color='default' href='signup' variant='flat'>
-            Sign Up
-            <IconArrowRight size='16' color='black' stroke='1.5' />
-          </Button>
+          <footer>
+            <div className='flex items-center justify-center gap-2 text-sm'>
+              <p>Don&rsquo;t have an account?</p>
+              <Button as={Link} color='default' href='signup' variant='flat'>
+                Sign Up
+                <IconArrowRight size='20' />
+              </Button>
+            </div>
+          </footer>
         </div>
-      </footer>
+        <div className='flex flex-col items-center justify-center bg-gradient-to-tl from-blue-700 to-blue-600 px-16 text-white'>
+          <div className='flex max-w-lg flex-col items-start'>
+            <a href='/' className='mb-4 text-2xl font-semibold sm:text-4xl'>
+              Nook
+            </a>
+            <p className='mb-4 text-4xl font-semibold sm:text-6xl'>Welcome back!</p>
+            <p className='text-xl font-light'>
+              Enter your login credentials to personalize your Nook.
+            </p>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
