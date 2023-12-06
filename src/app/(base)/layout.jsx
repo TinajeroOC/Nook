@@ -18,8 +18,8 @@ import format from 'date-fns/format'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
-import Footer from '@/components/layout/footer'
-import ThemeSwitcher from '@/components/theme/themeSwitcher'
+import Footer from '@/components/layouts/Footer'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 import { useAuthUser } from '@/lib/hooks/useAuthUser'
 
 export default function Layout({ children }) {
