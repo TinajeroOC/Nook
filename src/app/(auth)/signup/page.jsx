@@ -8,15 +8,17 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
+import { createUser } from '@/lib/actions/auth'
+
 const schema = Yup.object().shape({
   username: Yup.string()
-    .min(2, 'Username must be at least 2 characters')
+    .min(4, 'Username must be at least 4 characters')
     .max(16, 'Username must be shorter than 16 characters')
     .matches(/^[A-Za-z-0-9_]*$/, 'Username must only contain letters and numbers')
-    .required('Enter your url'),
+    .required('Enter your username'),
   name: Yup.string()
     .min(2, 'Name must be at least 2 characters')
-    .max(64, 'Name must be shorter than 64 characters')
+    .max(32, 'Name must be shorter than 32 characters')
     .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
     .required('Enter your name'),
   email: Yup.string().email('Enter a valid email').required('Enter your email'),
@@ -49,15 +51,11 @@ export default function Page() {
 
   const onSubmit = async () => {
     try {
-      await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          name,
-          email,
-          password,
-        }),
+      await createUser({
+        username,
+        name,
+        email,
+        password,
       })
       router.push('/login')
     } catch (error) {}
@@ -78,7 +76,9 @@ export default function Page() {
                   startContent={<IconAt size='20' />}
                   color={errors?.username ? 'danger' : 'default'}
                   errorMessage={errors?.username?.message}
-                  description={username && `People can access your profile at nook.com/${username}`}
+                  description={
+                    username && `People can view your nook at nook.com/${username.toLowerCase()}`
+                  }
                   onValueChange={setUsername}
                 />
                 <Input

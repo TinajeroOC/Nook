@@ -8,6 +8,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
+import { authenticateUser } from '@/lib/actions/auth'
+
 const schema = Yup.object().shape({
   email: Yup.string().email('Enter a valid email').required('Enter your email'),
   password: Yup.string().required('Enter your password'),
@@ -31,17 +33,13 @@ export default function Page() {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = async (event) => {
+  const onSubmit = async () => {
     try {
-      await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+      await authenticateUser({
+        email,
+        password,
       })
-      router.push('/')
+      router.push('/dashboard')
     } catch (error) {}
   }
 
