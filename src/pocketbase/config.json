@@ -1,5 +1,59 @@
 [
   {
+    "id": "_pb_users_auth_",
+    "name": "users",
+    "type": "auth",
+    "system": false,
+    "schema": [
+      {
+        "system": false,
+        "id": "users_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "min": 2,
+          "max": 32,
+          "pattern": "^[A-Za-z\\s]+$"
+        }
+      },
+      {
+        "system": false,
+        "id": "4lmqejrn",
+        "name": "avatar",
+        "type": "file",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/png", "image/jpeg"],
+          "thumbs": [],
+          "protected": false
+        }
+      }
+    ],
+    "indexes": [],
+    "listRule": "id = @request.auth.id",
+    "viewRule": "id = @request.auth.id",
+    "createRule": null,
+    "updateRule": "id = @request.auth.id",
+    "deleteRule": null,
+    "options": {
+      "allowEmailAuth": true,
+      "allowOAuth2Auth": true,
+      "allowUsernameAuth": false,
+      "exceptEmailDomains": null,
+      "manageRule": null,
+      "minPasswordLength": 8,
+      "onlyEmailDomains": null,
+      "requireEmail": true
+    }
+  },
+  {
     "id": "yvtw11cw3s6hx2a",
     "name": "links",
     "type": "base",
@@ -98,60 +152,6 @@
     "options": {}
   },
   {
-    "id": "_pb_users_auth_",
-    "name": "users",
-    "type": "auth",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "users_name",
-        "name": "name",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": 2,
-          "max": 32,
-          "pattern": "^[A-Za-z\\s]+$"
-        }
-      },
-      {
-        "system": false,
-        "id": "4lmqejrn",
-        "name": "avatar",
-        "type": "file",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "maxSelect": 1,
-          "maxSize": 5242880,
-          "mimeTypes": ["image/png", "image/jpeg"],
-          "thumbs": [],
-          "protected": false
-        }
-      }
-    ],
-    "indexes": [],
-    "listRule": "id = @request.auth.id",
-    "viewRule": "id = @request.auth.id",
-    "createRule": null,
-    "updateRule": "id = @request.auth.id",
-    "deleteRule": null,
-    "options": {
-      "allowEmailAuth": true,
-      "allowOAuth2Auth": true,
-      "allowUsernameAuth": false,
-      "exceptEmailDomains": null,
-      "manageRule": null,
-      "minPasswordLength": 8,
-      "onlyEmailDomains": null,
-      "requireEmail": true
-    }
-  },
-  {
     "id": "usyrruvqi9drw65",
     "name": "settings",
     "type": "base",
@@ -237,9 +237,9 @@
     ],
     "indexes": [],
     "listRule": "user.id = @request.auth.id",
-    "viewRule": "user.id = @request.auth.settings",
+    "viewRule": "user.id = @request.auth.id",
     "createRule": null,
-    "updateRule": "user.id = @request.auth.settings",
+    "updateRule": "user.id = @request.auth.id",
     "deleteRule": null,
     "options": {}
   }
