@@ -2,9 +2,14 @@
 
 import { Button, Tooltip } from '@nextui-org/react'
 import { IconCopy } from '@tabler/icons-react'
+import { useEffect, useState } from 'react'
 
 export default function CopyText({ label, placement, value, isSiteUrl }) {
-  const origin = window.location.origin
+  const [origin, setOrigin] = useState('')
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
 
   return (
     <Tooltip content={label} placement={placement}>
