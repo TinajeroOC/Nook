@@ -11,6 +11,12 @@ module.exports = {
   theme: {
     extend: {},
   },
+  safelist: [
+    {
+      pattern: /bg-(white|black)/,
+      pattern: /bg-(blue|purple|green|red|pink|yellow|cyan)-(500)/,
+    },
+  ],
   darkMode: 'class',
   plugins: [nextui({ addCommonColors: true })],
 }
