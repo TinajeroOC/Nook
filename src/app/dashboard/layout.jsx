@@ -16,7 +16,7 @@ import format from 'date-fns/format'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
-import Footer from '@/components/layouts/Footer'
+import RootFooter from '@/components/layouts/Footer/RootFooter'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
 import { useAuthUser } from '@/lib/hooks/useAuthUser'
 
@@ -32,7 +32,7 @@ export default function Layout({ children }) {
   }
 
   return (
-    <>
+    <div className='relative flex min-h-screen flex-col'>
       <Navbar isBordered height='4.5rem'>
         <NavbarBrand>
           <p className='select-none text-2xl font-semibold text-inherit'>Nook</p>
@@ -95,8 +95,8 @@ export default function Layout({ children }) {
           )}
         </NavbarContent>
       </Navbar>
-      <main className='mx-auto h-[calc(100vh_-_146px)] w-full max-w-5xl gap-8 p-6'>{children}</main>
-      <Footer />
-    </>
+      <main className='container mx-auto h-auto max-w-5xl flex-grow p-6'>{children}</main>
+      <RootFooter />
+    </div>
   )
 }
