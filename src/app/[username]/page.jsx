@@ -71,7 +71,13 @@ export default async function Page({ params }) {
                       </div>
                       <div className='flex flex-col gap-2 sm:flex-row'>
                         <Tooltip content='View Link' placement='top'>
-                          <Button isIconOnly className={`${themeClasses[settings.theme]}`}>
+                          <Button
+                            isIconOnly
+                            as={Link}
+                            href={link.url}
+                            isExternal={true}
+                            className={`${themeClasses[settings.theme]}`}
+                          >
                             <IconExternalLink size='20' />
                           </Button>
                         </Tooltip>
