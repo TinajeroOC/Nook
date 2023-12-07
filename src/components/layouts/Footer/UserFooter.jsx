@@ -5,7 +5,7 @@ export default function UserFooter() {
     <footer className='container mx-auto max-w-xl px-8 pb-8'>
       <div className='flex flex-col items-center justify-center gap-8'>
         <Divider />
-        <Link href='/' color='foreground' className='text-xl font-semibold'>
+        <Link href='/' color='foreground' className='text-xl font-light text-default-500'>
           Nook
         </Link>
       </div>
