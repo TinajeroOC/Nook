@@ -114,7 +114,7 @@ export default function LinkCreateForm({ userId }) {
                   <Switch
                     {...register('isVisible')}
                     defaultSelected={isVisible ? true : false}
-                    onValueChange={(isSelected) => setValue(isSelected)}
+                    onValueChange={(isSelected) => setValue('isVisible', isSelected)}
                     classNames={{
                       base: cn(
                         'inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center',
