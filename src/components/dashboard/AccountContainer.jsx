@@ -40,6 +40,7 @@ export default function AccountContainer({ data }) {
     handleSubmit,
     getValues,
     clearErrors,
+    watch,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -92,7 +93,9 @@ export default function AccountContainer({ data }) {
                       startContent={<IconAt size='20' />}
                       color={errors?.username ? 'danger' : 'default'}
                       errorMessage={errors?.username?.message}
-                      description={username && `People can view your nook at nook.com/${username}`}
+                      description={
+                        username && `People can view your nook at nook.com/${watch('username')}`
+                      }
                       defaultValue={username}
                     />
                   </ModalBody>
