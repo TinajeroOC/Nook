@@ -110,7 +110,9 @@ export default function Layout({ children }) {
           )}
         </NavbarContent>
       </Navbar>
-      <main className='container mx-auto h-auto max-w-5xl flex-grow p-6'>{children}</main>
+      <main className='container mx-auto flex h-auto max-w-5xl flex-grow flex-col justify-center gap-12 p-6'>
+        {children}
+      </main>
       <RootFooter />
     </div>
   )
