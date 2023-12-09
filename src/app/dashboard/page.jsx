@@ -1,7 +1,7 @@
 import { Button, Link } from '@nextui-org/react'
 import { IconExternalLink } from '@tabler/icons-react'
 
-import CopyText from '@/components/CopyText'
+import CopyText from '@/components/common/CopyText'
 import AccountContainer from '@/components/dashboard/AccountContainer'
 import AppearanceContainer from '@/components/dashboard/AppearanceContainer'
 import LinkTable from '@/components/dashboard/LinkTable'

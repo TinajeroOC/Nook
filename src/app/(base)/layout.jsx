@@ -1,8 +1,8 @@
 import { Button, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 
-import RootFooter from '@/components/layouts/Footer/RootFooter'
-import Logout from '@/components/Logout'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
+import Logout from '@/components/auth/Logout'
+import ThemeSwitcher from '@/components/common/ThemeSwitcher'
+import RootFooter from '@/components/layout/footer/RootFooter'
 import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
 export default async function Layout({ children }) {

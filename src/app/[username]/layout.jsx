@@ -1,4 +1,4 @@
-import UserFooter from '@/components/layouts/Footer/UserFooter'
+import UserFooter from '@/components/layout/footer/UserFooter'
 
 export default function NookLayout({ children }) {
   return (

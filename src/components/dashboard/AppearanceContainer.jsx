@@ -24,9 +24,10 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
-import Dot from '@/components/Dot'
 import { updateCollectionRecord } from '@/lib/actions/data'
 import { themeClasses } from '@/lib/constants/theme'
+
+import Dot from '../common/Dot'
 
 export default function AppearanceContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()

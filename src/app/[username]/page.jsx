@@ -10,7 +10,7 @@ import {
 } from '@nextui-org/react'
 import { IconExternalLink } from '@tabler/icons-react'
 
-import CopyText from '@/components/CopyText'
+import CopyText from '@/components/common/CopyText'
 import { themeClasses, themeGradients } from '@/lib/constants/theme'
 import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 

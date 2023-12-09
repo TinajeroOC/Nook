@@ -18,7 +18,7 @@ import LinkCreateForm from './LinkCreateForm'
 import LinkDeleteForm from './LinkDeleteForm'
 import LinkEditForm from './LinkEditForm'
 
-export default function LinksTable({ data }) {
+export default function LinkTable({ data }) {
   const columns = [
     { name: 'Title', uid: 'title' },
     { name: 'Description', uid: 'description' },

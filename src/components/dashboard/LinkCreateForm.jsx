@@ -46,7 +46,7 @@ export default function LinkCreateForm({ userId }) {
       title: '',
       description: '',
       url: '',
-      isVisible: true,
+      isVisible: false,
     },
     resolver: yupResolver(schema),
   })
@@ -100,6 +100,7 @@ export default function LinkCreateForm({ userId }) {
                   />
                   <Switch
                     {...register('isVisible')}
+                    defaultValue={false}
                     onValueChange={(isSelected) => setValue('isVisible', isSelected)}
                     classNames={{
                       base: cn(
