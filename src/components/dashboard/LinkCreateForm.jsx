@@ -15,7 +15,6 @@ import {
 } from '@nextui-org/react'
 import { IconPlus } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -23,10 +22,6 @@ import { createCollectionRecord } from '@/lib/actions/data'
 
 export default function LinkCreateForm({ userId }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [url, setUrl] = useState('')
-  const [isVisible, setIsVisible] = useState(true)
   const router = useRouter()
 
   const schema = Yup.object().shape({
@@ -48,10 +43,10 @@ export default function LinkCreateForm({ userId }) {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      title,
-      description,
-      url,
-      isVisible,
+      title: '',
+      description: '',
+      url: '',
+      isVisible: true,
     },
     resolver: yupResolver(schema),
   })
@@ -69,11 +64,6 @@ export default function LinkCreateForm({ userId }) {
         isVisible,
       },
     })
-
-    setTitle(title)
-    setDescription(description)
-    setUrl(url)
-    setIsVisible(isVisible)
 
     router.refresh()
   }
@@ -95,25 +85,21 @@ export default function LinkCreateForm({ userId }) {
                     label='Title'
                     color={errors?.title ? 'danger' : 'default'}
                     errorMessage={errors?.title?.message}
-                    defaultValue={title}
                   />
                   <Input
                     {...register('description')}
                     label='Description'
                     color={errors?.description ? 'danger' : 'default'}
                     errorMessage={errors?.description?.message}
-                    defaultValue={description}
                   />
                   <Input
                     {...register('url')}
                     label='URL'
                     color={errors?.url ? 'danger' : 'default'}
                     errorMessage={errors?.url?.message}
-                    defaultValue={url}
                   />
                   <Switch
                     {...register('isVisible')}
-                    defaultSelected={isVisible ? true : false}
                     onValueChange={(isSelected) => setValue('isVisible', isSelected)}
                     classNames={{
                       base: cn(
