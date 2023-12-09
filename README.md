@@ -1,10 +1,10 @@
 # Nook
 
-Nook is a full-stack web application for aggregating links into a single convenient one. It is built using [Next.js](https://nextjs.org/), [NextUI](https://nextui.org/), [Tailwind CSS](https://tailwindcss.com/), and [PocketBase](https://pocketbase.io/)
+Nook is a full-stack web application for aggregating multiple links into one. It is built using [Next.js](https://nextjs.org/), [NextUI](https://nextui.org/), [Tailwind CSS](https://tailwindcss.com/), and [PocketBase](https://pocketbase.io/)
 
 ## Installation
 
-UBlog requires Node.js V16+ to run.
+Nook requires Node.js V16+ to run.
 
 1. Clone the repository
 
@@ -29,7 +29,7 @@ npm install
 npm run pocketbase
 ```
 
-> If you are on MacOS, open the src/pocketbase folder in a separate terminal and type `./pocketbase serve`
+> If you are on MacOS, open `src/pocketbase` in a separate terminal and type `./pocketbase serve`
 
 6. Create a PocketBase administrator account
 
