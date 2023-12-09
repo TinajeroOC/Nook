@@ -17,7 +17,8 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconAt, IconEdit } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -25,7 +26,12 @@ import { updateCollectionRecord } from '@/lib/actions/data'
 
 export default function AccountContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [username, setUsername] = useState(data.username)
+  const [host, setHost] = useState()
+  const router = useRouter()
+
+  useEffect(() => {
+    setHost(window.location.host)
+  }, [])
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -44,7 +50,7 @@ export default function AccountContainer({ data }) {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      username,
+      username: data.username,
     },
     resolver: yupResolver(schema),
   })
@@ -60,7 +66,7 @@ export default function AccountContainer({ data }) {
       },
     })
 
-    setUsername(username)
+    router.refresh()
   }
 
   return (
@@ -72,7 +78,7 @@ export default function AccountContainer({ data }) {
       <CardBody className='gap-2'>
         <div className='flex flex-col'>
           <span>Username</span>
-          <span className='text-sm font-light'>@{username}</span>
+          <span className='text-sm font-light'>@{data.username}</span>
         </div>
       </CardBody>
       <Divider />
@@ -90,13 +96,16 @@ export default function AccountContainer({ data }) {
                     <Input
                       {...register('username')}
                       label='Username'
+                      defaultValue={data.username}
                       startContent={<IconAt size='20' />}
                       color={errors?.username ? 'danger' : 'default'}
                       errorMessage={errors?.username?.message}
                       description={
-                        username && `People can view your nook at nook.com/${watch('username')}`
+                        watch('username') &&
+                        `People can view your nook at ${host}/${getValues(
+                          'username'
+                        ).toLowerCase()}`
                       }
-                      defaultValue={username}
                     />
                   </ModalBody>
                   <ModalFooter>
