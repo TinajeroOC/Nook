@@ -17,13 +17,12 @@ const schema = Yup.object().shape({
 
 export default function Page() {
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const router = useRouter()
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -34,6 +33,8 @@ export default function Page() {
   })
 
   const onSubmit = async () => {
+    const { email, password } = getValues()
+
     try {
       await authenticateUser({
         email,
@@ -57,7 +58,6 @@ export default function Page() {
                 label='Email'
                 color={errors?.email ? 'danger' : 'default'}
                 errorMessage={errors?.email?.message}
-                onValueChange={setEmail}
               />
               <Input
                 {...register('password')}
@@ -75,7 +75,6 @@ export default function Page() {
                 }
                 color={errors?.password ? 'danger' : 'default'}
                 errorMessage={errors?.password?.message}
-                onValueChange={setPassword}
               />
               <Button fullWidth='true' color='primary' type='submit'>
                 Log in to your account
@@ -94,13 +93,11 @@ export default function Page() {
         </div>
         <div className='flex flex-col items-center justify-center bg-gradient-to-tl from-blue-700 to-blue-600 px-16 py-8 text-white'>
           <div className='flex max-w-lg flex-col items-start'>
-            <a href='/' className='mb-4 text-2xl font-semibold sm:text-4xl'>
+            <a href='/' className='mb-4 text-3xl font-semibold sm:text-4xl'>
               Nook
             </a>
-            <p className='mb-4 text-4xl font-semibold sm:text-6xl'>Welcome back!</p>
-            <p className='text-xl font-light'>
-              Enter your login credentials to personalize your Nook.
-            </p>
+            <p className='mb-4 text-5xl font-semibold sm:text-6xl'>Welcome back!</p>
+            <p className='text-xl font-light'>Enter your login credentials to manage your nook.</p>
           </div>
         </div>
       </div>

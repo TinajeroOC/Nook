@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, Link } from '@nextui-org/react'
 import { IconArrowRight, IconAt, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -29,15 +29,18 @@ const schema = Yup.object().shape({
 
 export default function Page() {
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [username, setUsername] = useState('')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [host, setHost] = useState('')
   const router = useRouter()
+
+  useEffect(() => {
+    setHost(window.location.host)
+  }, [])
 
   const {
     register,
     handleSubmit,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -50,6 +53,8 @@ export default function Page() {
   })
 
   const onSubmit = async () => {
+    const { username, name, email, password } = getValues()
+
     try {
       await createUser({
         username,
@@ -77,9 +82,9 @@ export default function Page() {
                   color={errors?.username ? 'danger' : 'default'}
                   errorMessage={errors?.username?.message}
                   description={
-                    username && `People can view your nook at nook.com/${username.toLowerCase()}`
+                    watch('username') &&
+                    `People can view your nook at ${host}/${getValues('username').toLowerCase()}`
                   }
-                  onValueChange={setUsername}
                 />
                 <Input
                   {...register('name')}
@@ -88,7 +93,6 @@ export default function Page() {
                   label='Name'
                   color={errors?.name ? 'danger' : 'default'}
                   errorMessage={errors?.name?.message}
-                  onValueChange={setName}
                 />
                 <Input
                   {...register('email')}
@@ -97,7 +101,6 @@ export default function Page() {
                   label='Email'
                   color={errors?.email ? 'danger' : 'default'}
                   errorMessage={errors?.email?.message}
-                  onValueChange={setEmail}
                 />
                 <Input
                   {...register('password')}
@@ -115,7 +118,6 @@ export default function Page() {
                   }
                   color={errors?.password ? 'danger' : 'default'}
                   errorMessage={errors?.password?.message}
-                  onValueChange={setPassword}
                 />
                 <Button fullWidth='true' color='primary' type='submit'>
                   Create your account
@@ -134,15 +136,15 @@ export default function Page() {
           </div>
           <div className='flex flex-col items-center justify-center bg-gradient-to-tl from-blue-700 to-blue-600 px-16 py-8 text-white'>
             <div className='flex max-w-lg flex-col items-start'>
-              <a href='/' className='mb-4 text-2xl font-semibold sm:text-4xl'>
+              <a href='/' className='mb-4 text-3xl font-semibold sm:text-4xl'>
                 Nook
               </a>
-              <p className='mb-4 text-4xl font-semibold sm:text-6xl'>
-                Everything about you in one place!
+              <p className='mb-4 text-5xl font-semibold sm:text-6xl'>
+                Everything about yourself, one link.
               </p>
               <p className='text-xl font-light'>
                 Spread thin across the internet? Nook makes it easy share your information via a
-                single, shareable page. Create an account today to get started!
+                single, convenient link. Create an account today to get started!
               </p>
             </div>
           </div>
