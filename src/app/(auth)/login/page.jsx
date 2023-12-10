@@ -23,6 +23,7 @@ export default function Page() {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -35,13 +36,22 @@ export default function Page() {
   const onSubmit = async () => {
     const { email, password } = getValues()
 
-    try {
-      await authenticateUser({
-        email,
-        password,
+    const result = await authenticateUser({
+      email,
+      password,
+    })
+
+    if (result?.response?.code === 400) {
+      setError('email', {
+        type: 'required',
       })
-      router.push('/dashboard')
-    } catch (error) {}
+      setError('password', {
+        type: 'required',
+        message: 'Incorrect username or password',
+      })
+    } else {
+      router.push('/')
+    }
   }
 
   return (

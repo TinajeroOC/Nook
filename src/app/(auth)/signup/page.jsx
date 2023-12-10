@@ -41,6 +41,7 @@ export default function Page() {
     handleSubmit,
     getValues,
     watch,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -55,15 +56,26 @@ export default function Page() {
   const onSubmit = async () => {
     const { username, name, email, password } = getValues()
 
-    try {
-      await createUser({
-        username,
-        name,
-        email,
-        password,
+    const result = await createUser({
+      username,
+      name,
+      email,
+      password,
+    })
+
+    if (result?.response?.code === 400) {
+      const fields = Object.keys(result?.response?.data)
+
+      fields.forEach((field) => {
+        const { message } = result?.response?.data[field]
+        setError(field, {
+          type: 'required',
+          message,
+        })
       })
+    } else {
       router.push('/login')
-    } catch (error) {}
+    }
   }
 
   return (
