@@ -1,10 +1,15 @@
-# Nook
+<h1 align="center">
+Nook
+</h1>
+<p align="center">
+Nook is a full-stack web application for combining multiple links into one. It is built using Next.js, NextUI, and PocketBase.
+</p>
 
-Nook is a full-stack web application for aggregating multiple links into one. It is built using [Next.js](https://nextjs.org/), [NextUI](https://nextui.org/), [Tailwind CSS](https://tailwindcss.com/), and [PocketBase](https://pocketbase.io/)
+## Requirements
+
+- Node.js V16 or higher
 
 ## Installation
-
-Nook requires Node.js V16+ to run.
 
 1. Clone the repository
 
@@ -21,23 +26,17 @@ npm install
 
 3. Download [PocketBase](https://pocketbase.io/docs/) for your platform
 
-4. Extract the zip and drop the PocketBase executable into `src/pocketbase`
+4. Add the PocketBase executable to `src/pocketbase`
 
-5. Run PocketBase
-
-```
-npm run pocketbase
-```
-
-> If you are on MacOS, open `src/pocketbase` in a separate terminal and type `./pocketbase serve`
+5. Open `src/pocketbase` in a separate terminal and run PocketBase using `./pocketbase serve`
 
 6. Create a PocketBase administrator account
 
-7. Create a `.env.local` file in the root directory and copy the template from the `.env.local.example` file
+7. Create `.env.local` in the root directory and copy the template from `.env.local.example`
 
-8. Update `PB_ADMIN_EMAIl` and `PB_ADMIN_PASSWORD` with your credentials
+8. Update `PB_ADMIN_EMAIl` and `PB_ADMIN_PASSWORD` with your administrator account credentials
 
-9. Run application in development mode
+9. Run Nook in development mode
 
 ```
 npm run dev
