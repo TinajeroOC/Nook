@@ -4,11 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, Link } from '@nextui-org/react'
 import { IconArrowRight, IconAt, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { createUser } from '@/lib/actions/auth'
+import useHost from '@/lib/hooks/useHost'
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -29,12 +30,8 @@ const schema = Yup.object().shape({
 
 export default function Page() {
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [host, setHost] = useState('')
+  const host = useHost()
   const router = useRouter()
-
-  useEffect(() => {
-    setHost(window.location.host)
-  }, [])
 
   const {
     register,

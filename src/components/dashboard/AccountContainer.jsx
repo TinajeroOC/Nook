@@ -18,20 +18,16 @@ import {
 } from '@nextui-org/react'
 import { IconAt, IconEdit } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { updateCollectionRecord } from '@/lib/actions/data'
+import useHost from '@/lib/hooks/useHost'
 
 export default function AccountContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [host, setHost] = useState()
+  const host = useHost()
   const router = useRouter()
-
-  useEffect(() => {
-    setHost(window.location.host)
-  }, [])
 
   const schema = Yup.object().shape({
     username: Yup.string()
