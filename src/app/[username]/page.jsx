@@ -38,18 +38,7 @@ export default async function Page({ params }) {
           <h1 className='text-xl font-semibold'>
             {settings.isNameVisible ? user.name : `@${user.username}`}
           </h1>
-          {settings.bio && (
-            <div>
-              <span className='font-semibold'>Bio</span>
-              <p className='break-all text-sm text-default-400'>{settings.bio}</p>
-            </div>
-          )}
-          {settings.status && (
-            <div>
-              <span className='font font-semibold'>Status</span>
-              <p className='break-all text-sm text-default-400'>{settings.status}</p>
-            </div>
-          )}
+          {settings.about && <p className='break-all text-default-500'>{settings.about}</p>}
         </CardFooter>
       </Card>
       <Divider />

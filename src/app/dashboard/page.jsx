@@ -14,7 +14,7 @@ export default async function Page() {
     .collection('users')
     .getOne(pb.authStore.model.id, { fields: 'id, username, email, name, avatar' })
   const settings = await pb.collection('settings').getFirstListItem(`user="${user.id}"`, {
-    fields: 'id, user, theme, bio, status, isNameVisible, useGradientBg',
+    fields: 'id, user, theme, about, isNameVisible, useGradientBg',
   })
   const links = await pb.collection('links').getFullList(`user="${user.id}"`, {
     fields: 'id, user, thumbnail, title, description, url, isVisible',
@@ -53,7 +53,7 @@ export default async function Page() {
         </div>
         <div className='col-start-8 col-end-13 flex flex-col md:col-start-9'>
           <AccountContainer data={user} />
-          <ProfileContainer data={{ ...settings, name: user.name }} />
+          <ProfileContainer data={{ ...settings, name: user.name, username: user.username }} />
           <AppearanceContainer data={settings} />
         </div>
       </div>

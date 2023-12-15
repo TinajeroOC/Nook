@@ -24,8 +24,7 @@ import { updateCollectionRecord } from '@/lib/actions/data'
 export default function ProfileContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [name, setName] = useState(data.name)
-  const [bio, setBio] = useState(data.bio)
-  const [status, setStatus] = useState(data.status)
+  const [about, setAbout] = useState('')
 
   const schema = Yup.object().shape({
     name: Yup.string()
@@ -33,8 +32,7 @@ export default function ProfileContainer({ data }) {
       .max(32, 'Name must be shorter than 32 characters')
       .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
       .required('Enter your name'),
-    bio: Yup.string().max(128, 'Bio must be shorter than 128 characters'),
-    status: Yup.string().max(16, 'Status must be shorter than 16 characters'),
+    about: Yup.string().max(128, 'About must be shorter than 128 characters'),
   })
 
   const {
@@ -46,14 +44,13 @@ export default function ProfileContainer({ data }) {
   } = useForm({
     defaultValues: {
       name,
-      bio,
-      status,
+      about,
     },
     resolver: yupResolver(schema),
   })
 
   const onSubmit = async () => {
-    const { name, bio, status } = getValues()
+    const { name, about } = getValues()
 
     await updateCollectionRecord({
       collectionName: 'users',
@@ -66,14 +63,12 @@ export default function ProfileContainer({ data }) {
       collectionName: 'settings',
       recordId: data.id,
       data: {
-        bio,
-        status,
+        about,
       },
     })
 
     setName(name)
-    setBio(bio)
-    setStatus(status)
+    setAbout(about)
   }
 
   const SettingField = ({ label, value }) => (
@@ -93,8 +88,7 @@ export default function ProfileContainer({ data }) {
       </CardHeader>
       <CardBody className='gap-2'>
         <SettingField label='Name' value={name} />
-        <SettingField label='Bio' value={bio} />
-        <SettingField label='Status' value={status} />
+        <SettingField label='About' value={about} />
       </CardBody>
       <CardFooter className='justify-end'>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
@@ -112,20 +106,12 @@ export default function ProfileContainer({ data }) {
                       defaultValue={name}
                     />
                     <Input
-                      {...register('bio')}
-                      label='Bio'
-                      color={errors?.bio ? 'danger' : 'default'}
-                      errorMessage={errors?.bio?.message}
-                      defaultValue={bio}
+                      {...register('about')}
+                      label='About'
+                      color={errors?.about ? 'danger' : 'default'}
+                      errorMessage={errors?.about?.message}
+                      defaultValue={about}
                     />
-                    <Input
-                      {...register('status')}
-                      label='Status'
-                      color={errors?.status ? 'danger' : 'default'}
-                      errorMessage={errors?.status?.message}
-                      defaultValue={status}
-                    />
-                    <input {...register('avatar')} type='file' name='avatar' />
                   </ModalBody>
                   <ModalFooter>
                     <Button color='danger' variant='flat' onPress={onClose}>
