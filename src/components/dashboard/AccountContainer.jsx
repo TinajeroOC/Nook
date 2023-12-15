@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Input,
   Modal,
   ModalBody,
@@ -16,7 +15,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@nextui-org/react'
-import { IconAt, IconEdit } from '@tabler/icons-react'
+import { IconAt } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -65,23 +64,25 @@ export default function AccountContainer({ data }) {
     router.refresh()
   }
 
+  const SettingField = ({ label, value }) => (
+    <div className='flex flex-col'>
+      <span>{label}</span>
+      <span className='text-sm font-light'>{value ? value : 'None'}</span>
+    </div>
+  )
+
   return (
     <Card className='mb-8'>
-      <CardHeader>
+      <CardHeader className='flex flex-row items-center justify-between gap-2'>
         <h2 className='text-2xl'>Account</h2>
-      </CardHeader>
-      <Divider />
-      <CardBody className='gap-2'>
-        <div className='flex flex-col'>
-          <span>Username</span>
-          <span className='text-sm font-light'>@{data.username}</span>
-        </div>
-      </CardBody>
-      <Divider />
-      <CardFooter className='justify-end'>
-        <Button onPress={onOpen} size='sm' color='primary' endContent={<IconEdit size='16' />}>
+        <Button onPress={onOpen} size='sm' color='default' variant='flat'>
           Edit
         </Button>
+      </CardHeader>
+      <CardBody className='gap-2'>
+        <SettingField label='Username' value={`@${data.username}`} />
+      </CardBody>
+      <CardFooter className='justify-end'>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
           <ModalContent>
             {(onClose) => (

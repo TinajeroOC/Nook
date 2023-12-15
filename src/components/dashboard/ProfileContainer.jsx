@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Input,
   Modal,
   ModalBody,
@@ -16,7 +15,6 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@nextui-org/react'
-import { IconEdit } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -78,31 +76,27 @@ export default function ProfileContainer({ data }) {
     setStatus(status)
   }
 
+  const SettingField = ({ label, value }) => (
+    <div className='flex flex-col'>
+      <span>{label}</span>
+      <span className='text-sm font-light'>{value ? value : 'None'}</span>
+    </div>
+  )
+
   return (
     <Card className='mb-8'>
-      <CardHeader>
+      <CardHeader className='flex flex-row items-center justify-between gap-2'>
         <h2 className='text-2xl'>Profile</h2>
-      </CardHeader>
-      <Divider />
-      <CardBody className='gap-2'>
-        <div className='flex flex-col'>
-          <span>Name</span>
-          <span className='text-sm font-light'>{name}</span>
-        </div>
-        <div className='flex flex-col'>
-          <span>Bio</span>
-          <span className='text-sm font-light'>{bio ? bio : 'None'}</span>
-        </div>
-        <div className='flex flex-col'>
-          <span>Status</span>
-          <span className='text-sm font-light'>{status ? status : 'None'}</span>
-        </div>
-      </CardBody>
-      <Divider />
-      <CardFooter className='justify-end'>
-        <Button onPress={onOpen} size='sm' color='primary' endContent={<IconEdit size='16' />}>
+        <Button onPress={onOpen} size='sm' color='default' variant='flat'>
           Edit
         </Button>
+      </CardHeader>
+      <CardBody className='gap-2'>
+        <SettingField label='Name' value={name} />
+        <SettingField label='Bio' value={bio} />
+        <SettingField label='Status' value={status} />
+      </CardBody>
+      <CardFooter className='justify-end'>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
           <ModalContent>
             {(onClose) => (
@@ -131,6 +125,7 @@ export default function ProfileContainer({ data }) {
                       errorMessage={errors?.status?.message}
                       defaultValue={status}
                     />
+                    <input {...register('avatar')} type='file' name='avatar' />
                   </ModalBody>
                   <ModalFooter>
                     <Button color='danger' variant='flat' onPress={onClose}>

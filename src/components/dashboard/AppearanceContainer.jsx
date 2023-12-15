@@ -8,7 +8,6 @@ import {
   CardFooter,
   CardHeader,
   cn,
-  Divider,
   Modal,
   ModalBody,
   ModalContent,
@@ -19,7 +18,6 @@ import {
   Switch,
   useDisclosure,
 } from '@nextui-org/react'
-import { IconEdit } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -76,33 +74,29 @@ export default function AppearanceContainer({ data }) {
     setIsNameVisible(isNameVisible)
   }
 
+  const SettingField = ({ label, value }) => (
+    <div className='flex flex-row items-center justify-between'>
+      <span>{label}</span>
+      <span className='text-sm font-light'>
+        {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}
+      </span>
+    </div>
+  )
+
   return (
     <Card className='mb-8'>
-      <CardHeader>
+      <CardHeader className='flex flex-row items-center justify-between gap-2'>
         <h2 className='text-2xl'>Appearance</h2>
-      </CardHeader>
-      <Divider />
-      <CardBody className='gap-2'>
-        <div className='flex flex-row items-center justify-between'>
-          <span>Theme</span>
-          <span className='text-sm font-light'>
-            <Dot color={theme} />
-          </span>
-        </div>
-        <div className='flex flex-row items-center justify-between'>
-          <span>Gradient Background</span>
-          <span className='text-sm font-light'>{useGradientBg ? 'Yes' : 'No'}</span>
-        </div>
-        <div className='flex flex-row items-center justify-between'>
-          <span>Name Visible</span>
-          <span className='text-sm font-light'>{isNameVisible ? 'Yes' : 'No'}</span>
-        </div>
-      </CardBody>
-      <Divider />
-      <CardFooter className='justify-end'>
-        <Button onPress={onOpen} size='sm' color='primary' endContent={<IconEdit size='16' />}>
+        <Button onPress={onOpen} size='sm' color='default' variant='flat'>
           Edit
         </Button>
+      </CardHeader>
+      <CardBody className='gap-2'>
+        <SettingField label='Theme' value={<Dot color={theme} />} />
+        <SettingField label='Gradient Background' value={useGradientBg} />
+        <SettingField label='Name Visible' value={isNameVisible} />
+      </CardBody>
+      <CardFooter className='justify-end'>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
           <ModalContent>
             {(onClose) => (
