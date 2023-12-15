@@ -1,4 +1,4 @@
-import { Button, Link } from '@nextui-org/react'
+import { Button, Card, CardBody, Link } from '@nextui-org/react'
 import { IconExternalLink } from '@tabler/icons-react'
 
 import CopyText from '@/components/common/CopyText'
@@ -21,31 +21,32 @@ export default async function Page() {
   })
 
   return (
-    <>
-      <div className='mb-8 flex flex-col items-center justify-between gap-2 rounded-xl bg-default-50 p-4 sm:flex-row'>
-        <div className='flex w-full flex-row items-center justify-between sm:flex-col sm:items-start'>
-          <h1 className='text-2xl'>Dashboard</h1>
-          <p className='text-right text-sm'>Manage your nook</p>
-        </div>
-        <div className='flex w-full flex-row gap-2 sm:w-fit'>
-          <Button
-            as={Link}
-            isExternal={true}
-            href={`/${pb.authStore.model.username}`}
-            color='primary'
-            endContent={<IconExternalLink size='20' />}
-            className='w-full sm:w-fit'
-          >
-            View Nook
-          </Button>
-          <CopyText
-            label='Copy Link'
-            placement='bottom-end'
-            value={`/${pb.authStore.model.username}`}
-            isSiteUrl={true}
-          />
-        </div>
-      </div>
+    <div className='flex flex-col gap-8'>
+      <Card>
+        <CardBody className='flex flex-col items-center justify-between gap-2 sm:flex-row'>
+          <div className='flex w-full flex-row items-center justify-between sm:flex-col sm:items-start'>
+            <h1 className='text-2xl'>Dashboard</h1>
+          </div>
+          <div className='flex w-full flex-row gap-2 sm:w-fit'>
+            <Button
+              as={Link}
+              isExternal={true}
+              href={`/${pb.authStore.model.username}`}
+              color='primary'
+              endContent={<IconExternalLink size='20' />}
+              className='w-full sm:w-fit'
+            >
+              View Nook
+            </Button>
+            <CopyText
+              label='Copy Link'
+              placement='bottom-end'
+              value={`/${pb.authStore.model.username}`}
+              isSiteUrl={true}
+            />
+          </div>
+        </CardBody>
+      </Card>
       <div className='flex flex-col-reverse sm:grid sm:grid-cols-12 sm:gap-8'>
         <div className='col-start-1 col-end-8 flex flex-col md:col-end-9'>
           <LinkTable data={{ links, user: user.id }} />
@@ -56,6 +57,6 @@ export default async function Page() {
           <AppearanceContainer data={settings} />
         </div>
       </div>
-    </>
+    </div>
   )
 }
