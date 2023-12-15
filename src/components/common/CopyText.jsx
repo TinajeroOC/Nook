@@ -16,6 +16,7 @@ export default function CopyText({ label, placement, value, isSiteUrl }) {
       <Button
         isIconOnly
         color='default'
+        variant='flat'
         onClick={() => {
           isSiteUrl
             ? navigator.clipboard.writeText(`${origin}${value}`)
