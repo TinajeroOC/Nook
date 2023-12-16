@@ -32,11 +32,13 @@ export async function createUser({ username, name, email, password }) {
 }
 
 export async function authenticateUser({ email, password }) {
-  const pb = await initPocketBaseServer(true)
-
   try {
+    const pb = await initPocketBaseServer(true)
+
     const auth = await pb.collection('users').authWithPassword(email, password)
+
     cookies().set('pb_auth', pb.authStore.exportToCookie())
+
     return auth
   } catch (error) {
     return JSON.parse(JSON.stringify(error))
