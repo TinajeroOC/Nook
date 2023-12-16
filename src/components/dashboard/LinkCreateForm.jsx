@@ -70,7 +70,13 @@ export default function LinkCreateForm({ userId }) {
 
   return (
     <>
-      <Button onPress={onOpen} color='primary' endContent={<IconPlus size='20' />}>
+      <Button
+        onPress={onOpen}
+        color='default'
+        size='sm'
+        variant='flat'
+        endContent={<IconPlus size='20' />}
+      >
         Create Link
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
