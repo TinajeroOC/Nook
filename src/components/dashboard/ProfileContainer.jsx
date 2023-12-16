@@ -89,7 +89,7 @@ export default function ProfileContainer({ data }) {
   )
 
   return (
-    <Card className='mb-8'>
+    <Card>
       <CardHeader className='flex flex-row items-center justify-between gap-2'>
         <h2 className='text-2xl'>Profile</h2>
         <Button onPress={onOpen} size='sm' color='default' variant='flat'>
