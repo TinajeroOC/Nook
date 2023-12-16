@@ -84,7 +84,7 @@ export default function ProfileContainer({ data }) {
   const SettingField = ({ label, value }) => (
     <div className='flex flex-col'>
       <span>{label}</span>
-      <span className='text-sm font-light'>{value ? value : 'None'}</span>
+      <span className='text-sm text-default-500'>{value ? value : 'None'}</span>
     </div>
   )
 

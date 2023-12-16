@@ -77,7 +77,7 @@ export default function AppearanceContainer({ data }) {
   const SettingField = ({ label, value }) => (
     <div className='flex flex-row items-center justify-between'>
       <span>{label}</span>
-      <span className='text-sm font-light'>
+      <span className='text-sm text-default-500'>
         {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}
       </span>
     </div>
