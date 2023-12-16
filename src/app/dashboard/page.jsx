@@ -2,7 +2,6 @@ import { Button, Card, CardBody, Link } from '@nextui-org/react'
 import { IconExternalLink } from '@tabler/icons-react'
 
 import CopyText from '@/components/common/CopyText'
-import AccountContainer from '@/components/dashboard/AccountContainer'
 import AppearanceContainer from '@/components/dashboard/AppearanceContainer'
 import LinkTable from '@/components/dashboard/LinkTable'
 import ProfileContainer from '@/components/dashboard/ProfileContainer'
@@ -52,7 +51,6 @@ export default async function Page() {
           <LinkTable data={{ links, user: user.id }} />
         </div>
         <div className='col-start-8 col-end-13 flex flex-col md:col-start-9'>
-          <AccountContainer data={user} />
           <ProfileContainer data={{ ...settings, name: user.name, username: user.username }} />
           <AppearanceContainer data={settings} />
         </div>

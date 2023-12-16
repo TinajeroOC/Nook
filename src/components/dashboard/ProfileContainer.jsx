@@ -15,6 +15,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@nextui-org/react'
+import { IconAt } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -23,10 +24,16 @@ import { updateCollectionRecord } from '@/lib/actions/data'
 
 export default function ProfileContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [username, setUsername] = useState(data.username)
   const [name, setName] = useState(data.name)
-  const [about, setAbout] = useState('')
+  const [about, setAbout] = useState(data.about)
 
   const schema = Yup.object().shape({
+    username: Yup.string()
+      .min(4, 'Username must be at least 4 characters')
+      .max(16, 'Username must be shorter than 16 characters')
+      .matches(/^[A-Za-z-0-9_]*$/, 'Username must only contain letters and numbers')
+      .required('Enter your username'),
     name: Yup.string()
       .min(2, 'Name must be at least 2 characters')
       .max(32, 'Name must be shorter than 32 characters')
@@ -43,6 +50,7 @@ export default function ProfileContainer({ data }) {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
+      username,
       name,
       about,
     },
@@ -50,12 +58,13 @@ export default function ProfileContainer({ data }) {
   })
 
   const onSubmit = async () => {
-    const { name, about } = getValues()
+    const { username, name, about } = getValues()
 
     await updateCollectionRecord({
       collectionName: 'users',
       recordId: data.user,
       data: {
+        username,
         name,
       },
     })
@@ -67,6 +76,7 @@ export default function ProfileContainer({ data }) {
       },
     })
 
+    setUsername(username)
     setName(name)
     setAbout(about)
   }
@@ -87,6 +97,7 @@ export default function ProfileContainer({ data }) {
         </Button>
       </CardHeader>
       <CardBody className='gap-2'>
+        <SettingField label='Username' value={`@${username}`} />
         <SettingField label='Name' value={name} />
         <SettingField label='About' value={about} />
       </CardBody>
@@ -98,6 +109,14 @@ export default function ProfileContainer({ data }) {
                 <ModalHeader className='flex flex-col gap-1'>Editing Profile</ModalHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <ModalBody>
+                    <Input
+                      {...register('username')}
+                      label='Username'
+                      defaultValue={username}
+                      startContent={<IconAt size='20' />}
+                      color={errors?.username ? 'danger' : 'default'}
+                      errorMessage={errors?.username?.message}
+                    />
                     <Input
                       {...register('name')}
                       label='Name'
