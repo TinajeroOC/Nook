@@ -14,13 +14,16 @@ import { IconTrash } from '@tabler/icons-react'
 
 import { deleteCollectionRecord } from '@/lib/actions/data'
 
-export default function LinkDeleteForm({ recordId }) {
+export default function LinkDeleteForm({ link, setLinks }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { id } = link
 
   const onSubmit = async () => {
+    setLinks((links) => links.filter((link) => link.id !== id))
+
     await deleteCollectionRecord({
       collectionName: 'links',
-      recordId,
+      recordId: id,
     })
   }
 

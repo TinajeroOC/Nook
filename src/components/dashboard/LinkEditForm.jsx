@@ -15,20 +15,13 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconEdit } from '@tabler/icons-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { updateCollectionRecord } from '@/lib/actions/data'
 
-export default function LinkEditForm(data) {
+export default function LinkEditForm({ link, setLinks }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [title, setTitle] = useState(data.title)
-  const [description, setDescription] = useState(data.description)
-  const [url, setUrl] = useState(data.url)
-  const [isVisible, setIsVisible] = useState(data.isVisible)
-  const router = useRouter()
 
   const schema = Yup.object().shape({
     title: Yup.string()
@@ -49,20 +42,21 @@ export default function LinkEditForm(data) {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      title,
-      description,
-      url,
-      isVisible,
+      title: link.title,
+      description: link.description,
+      url: link.url,
+      isVisible: link.isVisible,
     },
     resolver: yupResolver(schema),
   })
 
   const onSubmit = async () => {
     const { title, description, url, isVisible } = getValues()
+    const { id, user } = link
 
     await updateCollectionRecord({
       collectionName: 'links',
-      recordId: data.id,
+      recordId: id,
       data: {
         title,
         description,
@@ -71,12 +65,11 @@ export default function LinkEditForm(data) {
       },
     })
 
-    setTitle(title)
-    setDescription(description)
-    setUrl(url)
-    setIsVisible(isVisible)
-
-    router.refresh()
+    setLinks((links) =>
+      links.map((link) =>
+        link.id === id ? { id, user, title, description, url, isVisible } : link
+      )
+    )
   }
 
   return (
@@ -98,25 +91,25 @@ export default function LinkEditForm(data) {
                     label='Title'
                     color={errors?.title ? 'danger' : 'default'}
                     errorMessage={errors?.title?.message}
-                    defaultValue={title}
+                    defaultValue={link.title}
                   />
                   <Input
                     {...register('description')}
                     label='Description'
                     color={errors?.description ? 'danger' : 'default'}
                     errorMessage={errors?.description?.message}
-                    defaultValue={description}
+                    defaultValue={link.description}
                   />
                   <Input
                     {...register('url')}
                     label='URL'
                     color={errors?.url ? 'danger' : 'default'}
                     errorMessage={errors?.url?.message}
-                    defaultValue={url}
+                    defaultValue={link.url}
                   />
                   <Switch
                     {...register('isVisible')}
-                    defaultSelected={isVisible ? true : false}
+                    defaultSelected={link.isVisible ? true : false}
                     onValueChange={(isSelected) => setValue('isVisible', isSelected)}
                     classNames={{
                       base: cn(

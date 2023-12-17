@@ -14,15 +14,13 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconPlus } from '@tabler/icons-react'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { createCollectionRecord } from '@/lib/actions/data'
 
-export default function LinkCreateForm({ userId }) {
+export default function LinkCreateForm({ user, setLinks }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const router = useRouter()
 
   const schema = Yup.object().shape({
     title: Yup.string()
@@ -54,10 +52,10 @@ export default function LinkCreateForm({ userId }) {
   const onSubmit = async () => {
     const { title, description, url, isVisible } = getValues()
 
-    await createCollectionRecord({
+    const record = await createCollectionRecord({
       collectionName: 'links',
       data: {
-        user: userId,
+        user: user.id,
         title,
         description,
         url,
@@ -65,7 +63,10 @@ export default function LinkCreateForm({ userId }) {
       },
     })
 
-    router.refresh()
+    setLinks((links) => [
+      ...links,
+      { id: record.id, user: user.id, title, description, url, isVisible },
+    ])
   }
 
   return (
