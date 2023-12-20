@@ -33,7 +33,7 @@ const StyledSwitch = (props) => {
   )
 }
 
-export default function ThemeSwitcher() {
+export default function ThemeSwitch() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 

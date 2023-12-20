@@ -1,7 +1,7 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 
 import Logout from '@/components/auth/Logout'
-import ThemeSwitcher from '@/components/common/ThemeSwitcher'
+import ThemeSwitch from '@/components/common/ThemeSwitch'
 import RootFooter from '@/components/layout/footer/RootFooter'
 
 export default async function Layout({ children }) {
@@ -13,7 +13,7 @@ export default async function Layout({ children }) {
         </NavbarBrand>
         <NavbarContent justify='end'>
           <NavbarItem>
-            <ThemeSwitcher />
+            <ThemeSwitch />
           </NavbarItem>
           <NavbarItem>
             <Logout />
