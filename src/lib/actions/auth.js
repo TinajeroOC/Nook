@@ -5,9 +5,9 @@ import { cookies } from 'next/headers'
 import { initPocketBaseServer } from '../pocketbase/initPocketBaseServer'
 
 export async function createUser({ username, name, email, password }) {
-  try {
-    const pb = await initPocketBaseServer(true)
+  const pb = await initPocketBaseServer(true)
 
+  try {
     const user = await pb.collection('users').create({
       username: username.toLowerCase(),
       name,

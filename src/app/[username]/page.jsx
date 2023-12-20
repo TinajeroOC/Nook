@@ -16,11 +16,29 @@ import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Page({ params }) {
+async function getUser(username) {
   const pb = await initPocketBaseServer(true)
-  const user = await pb.collection('users').getFirstListItem(`username="${params.username}"`)
-  const settings = await pb.collection('settings').getFirstListItem(`user="${user.id}"`)
-  const links = await pb.collection('links').getFullList({ filter: `user="${user.id}"` })
+  return await pb.collection('users').getFirstListItem(`username="${username}"`)
+}
+
+async function getSettings(username) {
+  const pb = await initPocketBaseServer(true)
+  return await pb.collection('settings').getFirstListItem(`user.username="${username}"`)
+}
+
+async function getLinks(username) {
+  const pb = await initPocketBaseServer(true)
+  return await pb.collection('links').getFullList({ filter: `user.username="${username}"` })
+}
+
+export default async function Page({ params }) {
+  const { username } = params
+
+  const [user, settings, links] = await Promise.all([
+    getUser(username),
+    getSettings(username),
+    getLinks(username),
+  ])
 
   return (
     <div className='flex flex-col items-center gap-8'>

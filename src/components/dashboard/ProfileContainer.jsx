@@ -22,11 +22,13 @@ import * as Yup from 'yup'
 
 import { updateCollectionRecord } from '@/lib/actions/data'
 
+import { useUsernameContext } from './UsernameContext'
+
 export default function ProfileContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [username, setUsername] = useState(data.username)
-  const [name, setName] = useState(data.name)
-  const [about, setAbout] = useState(data.about)
+  const { username, setUsername } = useUsernameContext()
+  const [name, setName] = useState(data.user.name)
+  const [about, setAbout] = useState(data.settings.about)
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -62,7 +64,7 @@ export default function ProfileContainer({ data }) {
 
     await updateCollectionRecord({
       collectionName: 'users',
-      recordId: data.user,
+      recordId: data.user.id,
       data: {
         username,
         name,
@@ -70,7 +72,7 @@ export default function ProfileContainer({ data }) {
     })
     await updateCollectionRecord({
       collectionName: 'settings',
-      recordId: data.id,
+      recordId: data.settings.id,
       data: {
         about,
       },
@@ -112,10 +114,10 @@ export default function ProfileContainer({ data }) {
                     <Input
                       {...register('username')}
                       label='Username'
-                      defaultValue={username}
                       startContent={<IconAt size='20' />}
                       color={errors?.username ? 'danger' : 'default'}
                       errorMessage={errors?.username?.message}
+                      defaultValue={username}
                     />
                     <Input
                       {...register('name')}

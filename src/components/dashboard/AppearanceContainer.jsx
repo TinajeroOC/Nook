@@ -29,13 +29,13 @@ import Dot from '../common/Dot'
 
 export default function AppearanceContainer({ data }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [theme, setTheme] = useState(data.theme)
-  const [useGradientBg, setUseGradientBg] = useState(data.useGradientBg)
-  const [isNameVisible, setIsNameVisible] = useState(data.isNameVisible)
+  const [theme, setTheme] = useState(data.settings.theme)
+  const [useGradientBg, setUseGradientBg] = useState(data.settings.useGradientBg)
+  const [isNameVisible, setIsNameVisible] = useState(data.settings.isNameVisible)
   const themes = Object.keys(themeClasses)
 
   const schema = Yup.object().shape({
-    theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed.'),
+    theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed'),
     useGradientBg: Yup.boolean(),
     useIsNameVisible: Yup.boolean(),
   })
@@ -61,7 +61,7 @@ export default function AppearanceContainer({ data }) {
 
     await updateCollectionRecord({
       collectionName: 'settings',
-      recordId: data.id,
+      recordId: data.settings.id,
       data: {
         theme,
         useGradientBg,
