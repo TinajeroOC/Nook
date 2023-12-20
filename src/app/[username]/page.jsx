@@ -8,7 +8,7 @@ import {
   Link,
   Tooltip,
 } from '@nextui-org/react'
-import { IconExternalLink } from '@tabler/icons-react'
+import { IconAt, IconExternalLink } from '@tabler/icons-react'
 
 import CopyText from '@/components/common/CopyText'
 import { themeClasses, themeGradients } from '@/lib/constants/theme'
@@ -50,12 +50,18 @@ export default async function Page({ params }) {
               : themeClasses[settings.theme]
           }`}
         >
-          <Avatar radius='lg' name={user.name} className='h-36 w-36 text-large shadow-md' />
+          <Avatar showFallback radius='md' className='h-36 w-36 text-large shadow-md' />
         </CardBody>
         <CardFooter className='flex flex-col items-start gap-2'>
-          <h1 className='text-xl font-semibold'>
-            {settings.isNameVisible ? user.name : `@${user.username}`}
-          </h1>
+          <div className='flex flex-col items-start gap-2 sm:flex-row sm:items-center'>
+            <h1 className='inline-flex items-center text-xl font-semibold'>
+              <IconAt size='20' stroke='3' />
+              {user.username}
+            </h1>
+            {settings.isNameVisible && (
+              <h1 className='text-md font-semibold text-default-500'>{user.name}</h1>
+            )}
+          </div>
           {settings.about && <p className='break-all text-default-500'>{settings.about}</p>}
         </CardFooter>
       </Card>
