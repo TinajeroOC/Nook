@@ -16,9 +16,10 @@ import { deleteCollectionRecord } from '@/lib/actions/data'
 
 export default function LinkDeleteForm({ link, setLinks }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { id } = link
 
   const onSubmit = async () => {
+    const { id } = link
+
     setLinks((links) => links.filter((link) => link.id !== id))
 
     await deleteCollectionRecord({
@@ -38,7 +39,7 @@ export default function LinkDeleteForm({ link, setLinks }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className='flex flex-col gap-1'>Delete Link</ModalHeader>
+              <ModalHeader>Delete Link</ModalHeader>
               <form onSubmit={onSubmit}>
                 <ModalBody>
                   <p>Are you sure you want to delete this link?</p>

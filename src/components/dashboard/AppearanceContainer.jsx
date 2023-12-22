@@ -18,7 +18,7 @@ import {
   Switch,
   useDisclosure,
 } from '@nextui-org/react'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -27,31 +27,36 @@ import { themeClasses } from '@/lib/constants/theme'
 
 import Dot from '../common/Dot'
 
+const schema = Yup.object().shape({
+  theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed'),
+  useGradientBg: Yup.boolean(),
+  useIsNameVisible: Yup.boolean(),
+})
+
+const SettingField = ({ label, value }) => (
+  <div className='flex flex-row items-center justify-between'>
+    <span>{label}</span>
+    <span className='text-sm text-default-500'>
+      {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}
+    </span>
+  </div>
+)
+
 export default function AppearanceContainer({ data }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [theme, setTheme] = useState(data.settings.theme)
-  const [useGradientBg, setUseGradientBg] = useState(data.settings.useGradientBg)
-  const [isNameVisible, setIsNameVisible] = useState(data.settings.isNameVisible)
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const themes = Object.keys(themeClasses)
-
-  const schema = Yup.object().shape({
-    theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed'),
-    useGradientBg: Yup.boolean(),
-    useIsNameVisible: Yup.boolean(),
-  })
-
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
-    clearErrors,
-    formState: { errors, isValid },
+    reset,
+    formState: { defaultValues, errors, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
-      theme,
-      useGradientBg,
-      isNameVisible,
+      theme: data.settings.theme,
+      useGradientBg: data.settings.useGradientBg,
+      isNameVisible: data.settings.isNameVisible,
     },
     resolver: yupResolver(schema),
   })
@@ -68,20 +73,19 @@ export default function AppearanceContainer({ data }) {
         isNameVisible,
       },
     })
-
-    setTheme(theme)
-    setUseGradientBg(useGradientBg)
-    setIsNameVisible(isNameVisible)
   }
 
-  const SettingField = ({ label, value }) => (
-    <div className='flex flex-row items-center justify-between'>
-      <span>{label}</span>
-      <span className='text-sm text-default-500'>
-        {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}
-      </span>
-    </div>
-  )
+  useEffect(() => {
+    const { theme, useGradientBg, isNameVisible } = getValues()
+
+    reset({
+      theme,
+      useGradientBg,
+      isNameVisible,
+    })
+
+    onClose()
+  }, [isSubmitSuccessful])
 
   return (
     <Card>
@@ -92,16 +96,16 @@ export default function AppearanceContainer({ data }) {
         </Button>
       </CardHeader>
       <CardBody className='gap-2'>
-        <SettingField label='Theme' value={<Dot color={theme} />} />
-        <SettingField label='Gradient Background' value={useGradientBg} />
-        <SettingField label='Name Visible' value={isNameVisible} />
+        <SettingField label='Theme' value={<Dot color={defaultValues.theme} />} />
+        <SettingField label='Gradient Background' value={defaultValues.useGradientBg} />
+        <SettingField label='Name Visible' value={defaultValues.isNameVisible} />
       </CardBody>
-      <CardFooter className='justify-end'>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
+      <CardFooter>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={reset} backdrop='blur'>
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className='flex flex-col gap-1'>Editing Appearance</ModalHeader>
+                <ModalHeader>Edit Appearance</ModalHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <ModalBody>
                     <Select
@@ -113,7 +117,7 @@ export default function AppearanceContainer({ data }) {
                       })}
                       label='Theme'
                       selectionMode='single'
-                      defaultSelectedKeys={[theme]}
+                      defaultSelectedKeys={[defaultValues.theme]}
                       renderValue={(items) => {
                         return items.map((item) => (
                           <div
@@ -125,6 +129,7 @@ export default function AppearanceContainer({ data }) {
                           </div>
                         ))
                       }}
+                      errorMessage={errors?.theme?.message}
                     >
                       {(theme) => (
                         <SelectItem key={theme.color}>
@@ -137,7 +142,7 @@ export default function AppearanceContainer({ data }) {
                     </Select>
                     <Switch
                       {...register('useGradientBg')}
-                      defaultSelected={useGradientBg ? true : false}
+                      defaultSelected={defaultValues.useGradientBg ? true : false}
                       onValueChange={(isSelected) => {
                         setValue('useGradientBg', isSelected)
                       }}
@@ -164,7 +169,7 @@ export default function AppearanceContainer({ data }) {
                     </Switch>
                     <Switch
                       {...register('isNameVisible')}
-                      defaultSelected={isNameVisible ? true : false}
+                      defaultSelected={defaultValues.isNameVisible ? true : false}
                       onValueChange={(isSelected) => {
                         setValue('isNameVisible', isSelected)
                       }}
@@ -194,13 +199,7 @@ export default function AppearanceContainer({ data }) {
                     <Button color='danger' variant='flat' onPress={onClose}>
                       Cancel
                     </Button>
-                    <Button
-                      color='primary'
-                      type='submit'
-                      onPress={() => {
-                        isValid && onClose()
-                      }}
-                    >
+                    <Button color='primary' type='submit'>
                       Save
                     </Button>
                   </ModalFooter>

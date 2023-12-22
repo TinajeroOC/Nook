@@ -14,31 +14,31 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconPlus } from '@tabler/icons-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { createCollectionRecord } from '@/lib/actions/data'
 
+const schema = Yup.object().shape({
+  title: Yup.string()
+    .min(1, 'Title must be at least 1 character')
+    .max(16, 'Title must be shorter than 16 characters')
+    .required('Enter your title'),
+  description: Yup.string().max(64, 'Description must be shorter than 64 characters'),
+  url: Yup.string().url('Enter a valid url').required('Enter your url'),
+  isVisible: Yup.boolean(),
+})
+
 export default function LinkCreateForm({ user, setLinks }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-  const schema = Yup.object().shape({
-    title: Yup.string()
-      .min(1, 'Title must be at least 1 character')
-      .max(16, 'Title must be shorter than 16 characters')
-      .required('Enter your title'),
-    description: Yup.string().max(64, 'Description must be shorter than 64 characters'),
-    url: Yup.string().url('Enter a valid url').required('Enter your url'),
-    isVisible: Yup.boolean(),
-  })
-
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
-    clearErrors,
-    formState: { errors, isValid },
+    reset,
+    formState: { errors, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       title: '',
@@ -69,6 +69,11 @@ export default function LinkCreateForm({ user, setLinks }) {
     ])
   }
 
+  useEffect(() => {
+    reset()
+    onClose()
+  }, [isSubmitSuccessful])
+
   return (
     <>
       <Button
@@ -80,11 +85,11 @@ export default function LinkCreateForm({ user, setLinks }) {
       >
         Create Link
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={reset} backdrop='blur'>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className='flex flex-col gap-1'>Create Link</ModalHeader>
+              <ModalHeader>Create Link</ModalHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalBody>
                   <Input
@@ -133,13 +138,7 @@ export default function LinkCreateForm({ user, setLinks }) {
                   <Button color='danger' variant='flat' onPress={onClose}>
                     Cancel
                   </Button>
-                  <Button
-                    color='primary'
-                    type='submit'
-                    onPress={() => {
-                      isValid && onClose()
-                    }}
-                  >
+                  <Button color='primary' type='submit'>
                     Save
                   </Button>
                 </ModalFooter>

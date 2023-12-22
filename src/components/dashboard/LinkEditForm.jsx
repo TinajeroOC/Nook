@@ -15,31 +15,31 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconEdit } from '@tabler/icons-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { updateCollectionRecord } from '@/lib/actions/data'
 
+const schema = Yup.object().shape({
+  title: Yup.string()
+    .min(1, 'Title must be at least 1 character')
+    .max(16, 'Title must be shorter than 16 characters')
+    .required('Enter your title'),
+  description: Yup.string().max(64, 'Description must be shorter than 64 characters'),
+  url: Yup.string().url('Enter a valid url').required('Enter your url'),
+  isVisible: Yup.boolean(),
+})
+
 export default function LinkEditForm({ link, setLinks }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-  const schema = Yup.object().shape({
-    title: Yup.string()
-      .min(1, 'Title must be at least 1 character')
-      .max(16, 'Title must be shorter than 16 characters')
-      .required('Enter your title'),
-    description: Yup.string().max(64, 'Description must be shorter than 64 characters'),
-    url: Yup.string().url('Enter a valid url').required('Enter your url'),
-    isVisible: Yup.boolean(),
-  })
-
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
-    clearErrors,
-    formState: { errors, isValid },
+    reset,
+    formState: { defaultValues, errors, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       title: link.title,
@@ -72,6 +72,19 @@ export default function LinkEditForm({ link, setLinks }) {
     )
   }
 
+  useEffect(() => {
+    const { title, description, url, isVisible } = getValues()
+
+    reset({
+      title,
+      description,
+      url,
+      isVisible,
+    })
+
+    onClose()
+  }, [isSubmitSuccessful])
+
   return (
     <>
       <Tooltip content='Edit Link'>
@@ -79,11 +92,11 @@ export default function LinkEditForm({ link, setLinks }) {
           <IconEdit onClick={onOpen} size='20' />
         </span>
       </Tooltip>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={reset} backdrop='blur'>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className='flex flex-col gap-1'>Editing Link</ModalHeader>
+              <ModalHeader>Edit Link</ModalHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalBody>
                   <Input
@@ -91,25 +104,25 @@ export default function LinkEditForm({ link, setLinks }) {
                     label='Title'
                     color={errors?.title ? 'danger' : 'default'}
                     errorMessage={errors?.title?.message}
-                    defaultValue={link.title}
+                    defaultValue={defaultValues.title}
                   />
                   <Input
                     {...register('description')}
                     label='Description'
                     color={errors?.description ? 'danger' : 'default'}
                     errorMessage={errors?.description?.message}
-                    defaultValue={link.description}
+                    defaultValue={defaultValues.description}
                   />
                   <Input
                     {...register('url')}
                     label='URL'
                     color={errors?.url ? 'danger' : 'default'}
                     errorMessage={errors?.url?.message}
-                    defaultValue={link.url}
+                    defaultValue={defaultValues.url}
                   />
                   <Switch
                     {...register('isVisible')}
-                    defaultSelected={link.isVisible ? true : false}
+                    defaultSelected={defaultValues.isVisible ? true : false}
                     onValueChange={(isSelected) => setValue('isVisible', isSelected)}
                     classNames={{
                       base: cn(
@@ -135,13 +148,7 @@ export default function LinkEditForm({ link, setLinks }) {
                   <Button color='danger' variant='flat' onPress={onClose}>
                     Cancel
                   </Button>
-                  <Button
-                    color='primary'
-                    type='submit'
-                    onPress={() => {
-                      isValid && onClose()
-                    }}
-                  >
+                  <Button color='primary' type='submit'>
                     Save
                   </Button>
                 </ModalFooter>

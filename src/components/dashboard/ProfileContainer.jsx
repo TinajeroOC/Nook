@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { IconAt } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -24,37 +24,41 @@ import { updateCollectionRecord } from '@/lib/actions/data'
 
 import { useUsernameContext } from './UsernameContext'
 
+const schema = Yup.object().shape({
+  username: Yup.string()
+    .min(4, 'Username must be at least 4 characters')
+    .max(16, 'Username must be shorter than 16 characters')
+    .matches(/^[A-Za-z-0-9_]*$/, 'Username must only contain letters and numbers')
+    .required('Enter your username'),
+  name: Yup.string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(32, 'Name must be shorter than 32 characters')
+    .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
+    .required('Enter your name'),
+  about: Yup.string().max(128, 'About must be shorter than 128 characters'),
+})
+
+const SettingField = ({ label, value }) => (
+  <div className='flex flex-col'>
+    <span>{label}</span>
+    <span className='text-sm text-default-500'>{value ? value : 'None'}</span>
+  </div>
+)
+
 export default function ProfileContainer({ data }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const { username, setUsername } = useUsernameContext()
-  const [name, setName] = useState(data.user.name)
-  const [about, setAbout] = useState(data.settings.about)
-
-  const schema = Yup.object().shape({
-    username: Yup.string()
-      .min(4, 'Username must be at least 4 characters')
-      .max(16, 'Username must be shorter than 16 characters')
-      .matches(/^[A-Za-z-0-9_]*$/, 'Username must only contain letters and numbers')
-      .required('Enter your username'),
-    name: Yup.string()
-      .min(2, 'Name must be at least 2 characters')
-      .max(32, 'Name must be shorter than 32 characters')
-      .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
-      .required('Enter your name'),
-    about: Yup.string().max(128, 'About must be shorter than 128 characters'),
-  })
-
   const {
     register,
     handleSubmit,
     getValues,
-    clearErrors,
-    formState: { errors, isValid },
+    reset,
+    formState: { defaultValues, errors, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       username,
-      name,
-      about,
+      name: data.user.name,
+      about: data.settings.about,
     },
     resolver: yupResolver(schema),
   })
@@ -70,6 +74,7 @@ export default function ProfileContainer({ data }) {
         name,
       },
     })
+
     await updateCollectionRecord({
       collectionName: 'settings',
       recordId: data.settings.id,
@@ -79,16 +84,19 @@ export default function ProfileContainer({ data }) {
     })
 
     setUsername(username)
-    setName(name)
-    setAbout(about)
   }
 
-  const SettingField = ({ label, value }) => (
-    <div className='flex flex-col'>
-      <span>{label}</span>
-      <span className='text-sm text-default-500'>{value ? value : 'None'}</span>
-    </div>
-  )
+  useEffect(() => {
+    const { username, name, about } = getValues()
+
+    reset({
+      username,
+      name,
+      about,
+    })
+
+    onClose()
+  }, [isSubmitSuccessful])
 
   return (
     <Card>
@@ -100,15 +108,15 @@ export default function ProfileContainer({ data }) {
       </CardHeader>
       <CardBody className='gap-2'>
         <SettingField label='Username' value={`@${username}`} />
-        <SettingField label='Name' value={name} />
-        <SettingField label='About' value={about} />
+        <SettingField label='Name' value={defaultValues.name} />
+        <SettingField label='About' value={defaultValues.about} />
       </CardBody>
-      <CardFooter className='justify-end'>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={clearErrors} backdrop='blur'>
+      <CardFooter>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={reset} backdrop='blur'>
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className='flex flex-col gap-1'>Editing Profile</ModalHeader>
+                <ModalHeader>Edit Profile</ModalHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <ModalBody>
                     <Input
@@ -117,34 +125,28 @@ export default function ProfileContainer({ data }) {
                       startContent={<IconAt size='20' />}
                       color={errors?.username ? 'danger' : 'default'}
                       errorMessage={errors?.username?.message}
-                      defaultValue={username}
+                      defaultValue={defaultValues.username}
                     />
                     <Input
                       {...register('name')}
                       label='Name'
                       color={errors?.name ? 'danger' : 'default'}
                       errorMessage={errors?.name?.message}
-                      defaultValue={name}
+                      defaultValue={defaultValues.name}
                     />
                     <Input
                       {...register('about')}
                       label='About'
                       color={errors?.about ? 'danger' : 'default'}
                       errorMessage={errors?.about?.message}
-                      defaultValue={about}
+                      defaultValue={defaultValues.about}
                     />
                   </ModalBody>
                   <ModalFooter>
                     <Button color='danger' variant='flat' onPress={onClose}>
                       Cancel
                     </Button>
-                    <Button
-                      color='primary'
-                      type='submit'
-                      onPress={() => {
-                        isValid && onClose()
-                      }}
-                    >
+                    <Button color='primary' type='submit'>
                       Save
                     </Button>
                   </ModalFooter>
