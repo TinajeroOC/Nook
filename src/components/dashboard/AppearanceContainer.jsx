@@ -26,21 +26,13 @@ import { updateCollectionRecord } from '@/lib/actions/data'
 import { themeClasses } from '@/lib/constants/theme'
 
 import Dot from '../common/Dot'
+import SettingField from './SettingField'
 
 const schema = Yup.object().shape({
   theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed'),
   useGradientBg: Yup.boolean(),
   useIsNameVisible: Yup.boolean(),
 })
-
-const SettingField = ({ label, value }) => (
-  <div className='flex flex-row items-center justify-between'>
-    <span>{label}</span>
-    <span className='text-sm text-default-500'>
-      {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}
-    </span>
-  </div>
-)
 
 export default function AppearanceContainer({ data }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
@@ -96,9 +88,13 @@ export default function AppearanceContainer({ data }) {
         </Button>
       </CardHeader>
       <CardBody className='gap-2'>
-        <SettingField label='Theme' value={<Dot color={defaultValues.theme} />} />
-        <SettingField label='Gradient Background' value={defaultValues.useGradientBg} />
-        <SettingField label='Name Visible' value={defaultValues.isNameVisible} />
+        <SettingField label='Theme' value={<Dot color={defaultValues.theme} />} direction='row' />
+        <SettingField
+          label='Gradient Background'
+          value={defaultValues.useGradientBg}
+          direction='row'
+        />
+        <SettingField label='Name Visible' value={defaultValues.isNameVisible} direction='row' />
       </CardBody>
       <CardFooter>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={reset} backdrop='blur'>

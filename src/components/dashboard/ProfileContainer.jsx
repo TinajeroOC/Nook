@@ -22,6 +22,7 @@ import * as Yup from 'yup'
 
 import { updateCollectionRecord } from '@/lib/actions/data'
 
+import SettingField from './SettingField'
 import { useUsernameContext } from './UsernameContext'
 
 const schema = Yup.object().shape({
@@ -37,13 +38,6 @@ const schema = Yup.object().shape({
     .required('Enter your name'),
   about: Yup.string().max(128, 'About must be shorter than 128 characters'),
 })
-
-const SettingField = ({ label, value }) => (
-  <div className='flex flex-col'>
-    <span>{label}</span>
-    <span className='text-sm text-default-500'>{value ? value : 'None'}</span>
-  </div>
-)
 
 export default function ProfileContainer({ data }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
