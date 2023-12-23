@@ -1,16 +1,6 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Tooltip,
-} from '@nextui-org/react'
-import { IconAt, IconExternalLink } from '@tabler/icons-react'
+import { Avatar, Card, CardBody, CardFooter, Divider, Link } from '@nextui-org/react'
+import { IconAt } from '@tabler/icons-react'
 
-import CopyText from '@/components/common/CopyText'
 import { themeClasses, themeGradients } from '@/lib/constants/theme'
 import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
 
@@ -70,7 +60,7 @@ export default async function Page({ params }) {
         {links.map((link, index) => {
           if (link.isVisible) {
             return (
-              <Card fullWidth={true} key={index}>
+              <Card as={Link} isExternal href={link.url} fullWidth={true} key={index}>
                 <CardBody>
                   <div className='flex flex-row items-center justify-between gap-4'>
                     <div>
@@ -80,20 +70,6 @@ export default async function Page({ params }) {
                           {link.description}
                         </p>
                       )}
-                    </div>
-                    <div className='flex flex-col gap-2 sm:flex-row'>
-                      <Tooltip content='View Link' placement='top'>
-                        <Button
-                          isIconOnly
-                          as={Link}
-                          href={link.url}
-                          isExternal={true}
-                          className={`${themeClasses[settings.theme]}`}
-                        >
-                          <IconExternalLink size='20' />
-                        </Button>
-                      </Tooltip>
-                      <CopyText label='Copy Link' placement='top' value={link.url} />
                     </div>
                   </div>
                 </CardBody>
