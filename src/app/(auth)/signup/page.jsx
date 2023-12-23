@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import { createUser } from '@/lib/actions/auth'
-import useHost from '@/lib/hooks/useHost'
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -30,7 +29,6 @@ const schema = Yup.object().shape({
 
 export default function Page() {
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const host = useHost()
   const router = useRouter()
 
   const {
@@ -90,7 +88,9 @@ export default function Page() {
               errorMessage={errors?.username?.message}
               description={
                 watch('username') &&
-                `People can view your nook at ${host}/${getValues('username').toLowerCase()}`
+                `People can view your nook at ${window.location.host}/${getValues(
+                  'username'
+                ).toLowerCase()}`
               }
             />
             <Input
