@@ -16,21 +16,11 @@ import {
 import { IconPlus } from '@tabler/icons-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import * as Yup from 'yup'
 
-import { createCollectionRecord } from '@/lib/actions/data'
+import { createCollectionRecord } from '@/actions/data'
+import { LinkValidation } from '@/lib/validations/link'
 
-const schema = Yup.object().shape({
-  title: Yup.string()
-    .min(1, 'Title must be at least 1 character')
-    .max(16, 'Title must be shorter than 16 characters')
-    .required('Enter your title'),
-  description: Yup.string().max(64, 'Description must be shorter than 64 characters'),
-  url: Yup.string().url('Enter a valid url').required('Enter your url'),
-  isVisible: Yup.boolean(),
-})
-
-export default function LinkCreateForm({ user, setLinks }) {
+export default function CreateLink({ user, setLinks }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const {
     register,
@@ -46,7 +36,7 @@ export default function LinkCreateForm({ user, setLinks }) {
       url: '',
       isVisible: false,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(LinkValidation),
   })
 
   const onSubmit = async () => {
@@ -117,7 +107,7 @@ export default function LinkCreateForm({ user, setLinks }) {
                     classNames={{
                       base: cn(
                         'inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center',
-                        'justify-between cursor-pointer rounded-lg gap-8 p-1 border-2 border-transparent'
+                        'justify-between cursor-pointer rounded-xl gap-8 pl-3 py-2 border-2 border-transparent'
                       ),
                       wrapper: 'p-0 h-4 overflow-visible',
                       thumb: cn(
@@ -129,8 +119,8 @@ export default function LinkCreateForm({ user, setLinks }) {
                     }}
                   >
                     <div className='flex flex-col gap-1'>
-                      <p className='text-sm'>Enable visibility</p>
-                      <p className='text-xs text-default-400'>Allow others to see this link.</p>
+                      <p className='text-sm text-default-500'>Enable visibility</p>
+                      <p className='text-xs'>Allow others to see this link.</p>
                     </div>
                   </Switch>
                 </ModalBody>

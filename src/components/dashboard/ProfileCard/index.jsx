@@ -18,28 +18,13 @@ import {
 import { IconAt } from '@tabler/icons-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import * as Yup from 'yup'
 
-import { updateCollectionRecord } from '@/lib/actions/data'
+import { updateCollectionRecord } from '@/actions/data'
+import SettingField from '@/components/dashboard/SettingField'
+import { useUsernameContext } from '@/contexts/UsernameContext'
+import { ProfileValidation } from '@/lib/validations/settings'
 
-import SettingField from './SettingField'
-import { useUsernameContext } from './UsernameContext'
-
-const schema = Yup.object().shape({
-  username: Yup.string()
-    .min(4, 'Username must be at least 4 characters')
-    .max(16, 'Username must be shorter than 16 characters')
-    .matches(/^[A-Za-z-0-9_]*$/, 'Username must only contain letters and numbers')
-    .required('Enter your username'),
-  name: Yup.string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(32, 'Name must be shorter than 32 characters')
-    .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
-    .required('Enter your name'),
-  about: Yup.string().max(128, 'About must be shorter than 128 characters'),
-})
-
-export default function ProfileContainer({ data }) {
+export default function ProfileCard({ data }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const { username, setUsername } = useUsernameContext()
   const {
@@ -54,7 +39,7 @@ export default function ProfileContainer({ data }) {
       name: data.user.name,
       about: data.settings.about,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(ProfileValidation),
   })
 
   const onSubmit = async () => {

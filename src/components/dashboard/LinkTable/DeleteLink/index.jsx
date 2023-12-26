@@ -12,9 +12,9 @@ import {
 } from '@nextui-org/react'
 import { IconTrash } from '@tabler/icons-react'
 
-import { deleteCollectionRecord } from '@/lib/actions/data'
+import { deleteCollectionRecord } from '@/actions/data'
 
-export default function LinkDeleteForm({ link, setLinks }) {
+export default function DeleteLink({ link, setLinks }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const onSubmit = async () => {

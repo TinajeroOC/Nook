@@ -1,6 +1,6 @@
 'use server'
 
-import { initPocketBaseServer } from '../pocketbase/initPocketBaseServer'
+import { initPocketBaseServer } from '../lib/pocketbase'
 
 export async function createCollectionRecord({ collectionName, data }) {
   const pb = await initPocketBaseServer()

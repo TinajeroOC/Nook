@@ -1,8 +1,8 @@
-import { Avatar, Card, CardBody, CardFooter, Divider, Link } from '@nextui-org/react'
+import { Avatar, Card, CardBody, CardFooter, Link } from '@nextui-org/react'
 import { IconAt } from '@tabler/icons-react'
 
-import { themeClasses, themeGradients } from '@/lib/constants/theme'
-import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
+import { ColorClasses, GradientClasses } from '@/lib/constants/theme'
+import { initPocketBaseServer } from '@/lib/pocketbase'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,8 +36,8 @@ export default async function Page({ params }) {
         <CardBody
           className={`${
             settings.useGradientBg
-              ? `bg-gradient-to-tr ${themeGradients[settings.theme]}`
-              : themeClasses[settings.theme]
+              ? `bg-gradient-to-tr ${GradientClasses[settings.theme]}`
+              : ColorClasses[settings.theme]
           }`}
         >
           <Avatar showFallback radius='md' className='h-36 w-36 text-large shadow-md' />
@@ -48,14 +48,11 @@ export default async function Page({ params }) {
               <IconAt size='20' stroke='3' />
               {user.username}
             </h1>
-            {settings.isNameVisible && (
-              <h1 className='text-md font-semibold text-default-500'>{user.name}</h1>
-            )}
+            {settings.isNameVisible && <h1 className='text-default-500'>{user.name}</h1>}
           </div>
           {settings.about && <p className='break-all text-default-500'>{settings.about}</p>}
         </CardFooter>
       </Card>
-      <Divider />
       <div className='flex w-full flex-col gap-4'>
         {links.map((link, index) => {
           if (link.isVisible) {

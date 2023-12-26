@@ -1,9 +1,9 @@
-import AppearanceContainer from '@/components/dashboard/AppearanceContainer'
+import AppearanceCard from '@/components/dashboard/AppearanceCard'
 import LinkTable from '@/components/dashboard/LinkTable'
-import ProfileContainer from '@/components/dashboard/ProfileContainer'
-import RedirectContainer from '@/components/dashboard/RedirectContainer'
-import UsernameProvider from '@/components/dashboard/UsernameContext'
-import { initPocketBaseServer } from '@/lib/pocketbase/initPocketBaseServer'
+import ProfileCard from '@/components/dashboard/ProfileCard'
+import RedirectCard from '@/components/dashboard/RedirectCard'
+import UsernameProvider from '@/contexts/UsernameContext'
+import { initPocketBaseServer } from '@/lib/pocketbase'
 
 async function getUserData() {
   const pb = await initPocketBaseServer()
@@ -42,9 +42,9 @@ export default async function Page() {
       </div>
       <div className='col-start-8 col-end-13 flex flex-col gap-8 md:col-start-9'>
         <UsernameProvider defaultValue={data.user.username}>
-          <RedirectContainer data={data} />
-          <ProfileContainer data={data} />
-          <AppearanceContainer data={data} />
+          <RedirectCard data={data} />
+          <ProfileCard data={data} />
+          <AppearanceCard data={data} />
         </UsernameProvider>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 
-import { initPocketBaseServer } from '../pocketbase/initPocketBaseServer'
+import { initPocketBaseServer } from '../lib/pocketbase'
 
 export async function createUser({ username, name, email, password }) {
   const pb = await initPocketBaseServer(true)
@@ -19,8 +19,7 @@ export async function createUser({ username, name, email, password }) {
     await pb.collection('settings').create({
       user: user.id,
       theme: 'blue',
-      bio: `Nook Newcomer`,
-      status: 'Lounging',
+      about: 'Nook Newcomer',
       isNameVisible: true,
       useGradientBg: true,
     })

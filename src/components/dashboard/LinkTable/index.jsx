@@ -14,9 +14,9 @@ import {
 import { IconExternalLink } from '@tabler/icons-react'
 import { useCallback, useMemo, useState } from 'react'
 
-import LinkCreateForm from './LinkCreateForm'
-import LinkDeleteForm from './LinkDeleteForm'
-import LinkEditForm from './LinkEditForm'
+import CreateLink from '@/components/dashboard/LinkTable/CreateLink'
+import DeleteLink from '@/components/dashboard/LinkTable/DeleteLink'
+import EditLink from '@/components/dashboard/LinkTable/EditLink'
 
 export default function LinkTable({ data }) {
   const [links, setLinks] = useState(data.links)
@@ -58,8 +58,8 @@ export default function LinkTable({ data }) {
                   </span>
                 </Link>
               </Tooltip>
-              <LinkEditForm link={link} setLinks={setLinks} />
-              <LinkDeleteForm link={link} setLinks={setLinks} />
+              <EditLink link={link} setLinks={setLinks} />
+              <DeleteLink link={link} setLinks={setLinks} />
             </div>
           )
         default:
@@ -73,13 +73,17 @@ export default function LinkTable({ data }) {
     return (
       <div className='flex flex-row items-center justify-between gap-2'>
         <h2 className='text-2xl'>Links</h2>
-        <LinkCreateForm user={data.user} setLinks={setLinks} />
+        <CreateLink user={data.user} setLinks={setLinks} />
       </div>
     )
   }, [data, setLinks])
 
   return (
-    <Table topContent={topContent} topContentPlacement='outside'>
+    <Table
+      aria-label='Table containing user links'
+      topContent={topContent}
+      topContentPlacement='outside'
+    >
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn key={column.uid} align={column.uid === 'actions' ? 'center' : 'start'}>

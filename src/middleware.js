@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { initPocketBaseServer } from './lib/pocketbase/initPocketBaseServer'
+import { initPocketBaseServer } from '@/lib/pocketbase'
 
 export async function middleware(request) {
   const pb = await initPocketBaseServer()

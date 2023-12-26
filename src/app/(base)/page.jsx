@@ -1,7 +1,7 @@
 import { Button, Card, CardBody, CardHeader, commonColors, Link } from '@nextui-org/react'
 import { IconArrowRight, IconBrush, IconCamera, IconCheck, IconLink } from '@tabler/icons-react'
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <div className='flex flex-col items-center gap-4'>

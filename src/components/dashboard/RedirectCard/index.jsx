@@ -3,13 +3,13 @@
 import { Button, Card, CardBody, Link, Tooltip } from '@nextui-org/react'
 import { IconCopy, IconExternalLink } from '@tabler/icons-react'
 
-import useClipboard from '@/lib/hooks/useClipboard'
+import { useUsernameContext } from '@/contexts/UsernameContext'
+import useClipboard from '@/hooks/useClipboard'
+import { getHostUrl } from '@/lib/utils'
 
-import { useUsernameContext } from './UsernameContext'
-
-export default function RedirectContainer() {
+export default function RedirectCard() {
   const { username } = useUsernameContext()
-  const { onCopy, isCopied } = useClipboard(`${window.location.host}/${username}`)
+  const { onCopy, isCopied } = useClipboard(`${getHostUrl()}/${username}`)
 
   return (
     <Card>

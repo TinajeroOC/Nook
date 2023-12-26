@@ -20,23 +20,16 @@ import {
 } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import * as Yup from 'yup'
 
-import { updateCollectionRecord } from '@/lib/actions/data'
-import { themeClasses } from '@/lib/constants/theme'
+import { updateCollectionRecord } from '@/actions/data'
+import Dot from '@/components/common/Dot'
+import SettingField from '@/components/dashboard/SettingField'
+import { ColorClasses } from '@/lib/constants/theme'
+import { AppearanceValidation } from '@/lib/validations/settings'
 
-import Dot from '../common/Dot'
-import SettingField from './SettingField'
-
-const schema = Yup.object().shape({
-  theme: Yup.string().oneOf(Object.keys(themeClasses), 'Theme color must be the ones listed'),
-  useGradientBg: Yup.boolean(),
-  useIsNameVisible: Yup.boolean(),
-})
-
-export default function AppearanceContainer({ data }) {
+export default function AppearanceCard({ data }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
-  const themes = Object.keys(themeClasses)
+  const themes = Object.keys(ColorClasses)
   const {
     register,
     handleSubmit,
@@ -50,7 +43,7 @@ export default function AppearanceContainer({ data }) {
       useGradientBg: data.settings.useGradientBg,
       isNameVisible: data.settings.isNameVisible,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(AppearanceValidation),
   })
 
   const onSubmit = async () => {

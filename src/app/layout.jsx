@@ -2,7 +2,7 @@ import './globals.css'
 
 import { Inter } from 'next/font/google'
 
-import Providers from './providers'
+import AppContextProvider from '@/contexts/AppContextProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,11 +11,11 @@ export const metadata = {
   description: 'Your corner of the internet',
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <AppContextProvider>{children}</AppContextProvider>
       </body>
     </html>
   )

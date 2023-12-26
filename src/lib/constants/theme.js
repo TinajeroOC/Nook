@@ -1,4 +1,4 @@
-export const themeClasses = {
+export const ColorClasses = {
   blue: 'bg-blue-500',
   purple: 'bg-purple-500',
   green: 'bg-green-500',
@@ -8,7 +8,7 @@ export const themeClasses = {
   cyan: 'bg-cyan-500',
 }
 
-export const themeGradients = {
+export const GradientClasses = {
   blue: 'from-blue-400 to-blue-600',
   purple: 'from-purple-400 to-purple-600',
   green: 'from-green-400 to-green-600',
