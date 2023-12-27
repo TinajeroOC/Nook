@@ -1,5 +1,5 @@
 import Footer from '@/components/layout/base/Footer'
-import Header from '@/components/layout/Dashboard/Header'
+import Header from '@/components/layout/dashboard/Header'
 
 export default async function Layout({ children }) {
   return (

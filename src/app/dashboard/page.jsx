@@ -3,7 +3,7 @@ import LinkTable from '@/components/dashboard/LinkTable'
 import ProfileCard from '@/components/dashboard/ProfileCard'
 import RedirectCard from '@/components/dashboard/RedirectCard'
 import UsernameProvider from '@/contexts/UsernameContext'
-import { initPocketBaseServer } from '@/lib/pocketbase'
+import { initPocketBaseServer } from '@/lib/pocketbase/server'
 
 async function getUserData() {
   const pb = await initPocketBaseServer()

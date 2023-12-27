@@ -1,6 +1,6 @@
 import Footer from '@/components/layout/base/Footer'
 import Header from '@/components/layout/base/Header'
-import { initPocketBaseServer } from '@/lib/pocketbase'
+import { initPocketBaseServer } from '@/lib/pocketbase/server'
 
 export default async function Layout({ children }) {
   const pb = await initPocketBaseServer()

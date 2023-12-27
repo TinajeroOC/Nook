@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 
-import { initPocketBaseServer } from '../lib/pocketbase'
+import { initPocketBaseServer } from '@/lib/pocketbase/server'
 
 export async function createUser(username, name, email, password) {
   try {

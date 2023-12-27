@@ -2,7 +2,7 @@ import { Avatar, Card, CardBody, CardFooter, Link } from '@nextui-org/react'
 import { IconAt } from '@tabler/icons-react'
 
 import { ColorClasses, GradientClasses } from '@/lib/constants/theme'
-import { initPocketBaseServer } from '@/lib/pocketbase'
+import { initPocketBaseServer } from '@/lib/pocketbase/server'
 
 export const dynamic = 'force-dynamic'
 
