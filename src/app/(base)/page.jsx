@@ -16,18 +16,9 @@ export default async function Page() {
             <h1 className='inline text-4xl font-semibold tracking-tight lg:text-5xl'>.</h1>
           </div>
         </div>
-        <h2 className='text-center text-2xl text-default-500 lg:text-3xl'>
+        <h2 className='text-center text-2xl text-default-500 lg:text-2xl'>
           Nook simplifies sharing your socials, content, and more with one convenient link.
         </h2>
-        <Button
-          as={Link}
-          href='/signup'
-          color='primary'
-          endContent={<IconArrowRight size='20' />}
-          className='w-fit'
-        >
-          Get Started
-        </Button>
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <Card>
