@@ -22,10 +22,7 @@ export default function DeleteLink({ link, setLinks }) {
 
     setLinks((links) => links.filter((link) => link.id !== id))
 
-    await deleteCollectionRecord({
-      collectionName: 'links',
-      recordId: id,
-    })
+    await deleteCollectionRecord('links', id)
   }
 
   return (

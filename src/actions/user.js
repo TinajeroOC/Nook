@@ -4,10 +4,10 @@ import { cookies } from 'next/headers'
 
 import { initPocketBaseServer } from '../lib/pocketbase'
 
-export async function createUser({ username, name, email, password }) {
-  const pb = await initPocketBaseServer(true)
-
+export async function createUser(username, name, email, password) {
   try {
+    const pb = await initPocketBaseServer(true)
+
     const user = await pb.collection('users').create({
       username: username.toLowerCase(),
       name,
@@ -26,20 +26,22 @@ export async function createUser({ username, name, email, password }) {
 
     return user
   } catch (error) {
-    return JSON.parse(JSON.stringify(error))
+    console.log(`There was an issue creating a user: ${error}`)
+    throw error
   }
 }
 
-export async function authenticateUser({ email, password }) {
+export async function authenticateUser(email, password) {
   try {
     const pb = await initPocketBaseServer(true)
 
-    const auth = await pb.collection('users').authWithPassword(email, password)
+    const user = await pb.collection('users').authWithPassword(email, password)
 
     cookies().set('pb_auth', pb.authStore.exportToCookie())
 
-    return auth
+    return user
   } catch (error) {
-    return JSON.parse(JSON.stringify(error))
+    console.log(`There was an issue authenticating a user: ${error}`)
+    throw error
   }
 }

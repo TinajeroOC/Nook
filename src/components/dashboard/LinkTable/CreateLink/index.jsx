@@ -42,15 +42,12 @@ export default function CreateLink({ user, setLinks }) {
   const onSubmit = async () => {
     const { title, description, url, isVisible } = getValues()
 
-    const record = await createCollectionRecord({
-      collectionName: 'links',
-      data: {
-        user: user.id,
-        title,
-        description,
-        url,
-        isVisible,
-      },
+    const record = await createCollectionRecord('links', {
+      user: user.id,
+      title,
+      description,
+      url,
+      isVisible,
     })
 
     setLinks((links) => [

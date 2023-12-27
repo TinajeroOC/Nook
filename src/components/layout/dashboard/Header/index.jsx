@@ -1,11 +1,13 @@
 'use client'
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
+import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 
-import Logout from '@/components/common/Logout'
 import ThemeSwitch from '@/components/common/ThemeSwitch'
+import useLogOut from '@/hooks/useLogOut'
 
 export default function Header() {
+  const { onLogOut, isLoading, error } = useLogOut()
+
   return (
     <Navbar isBordered height='4.5rem'>
       <NavbarBrand>
@@ -16,7 +18,9 @@ export default function Header() {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem>
-          <Logout />
+          <Button onPress={onLogOut} isLoading={isLoading} variant='flat' color='danger'>
+            Logout
+          </Button>
         </NavbarItem>
       </NavbarContent>
     </Navbar>

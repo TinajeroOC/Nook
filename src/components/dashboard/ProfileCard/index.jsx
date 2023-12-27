@@ -45,21 +45,13 @@ export default function ProfileCard({ data }) {
   const onSubmit = async () => {
     const { username, name, about } = getValues()
 
-    await updateCollectionRecord({
-      collectionName: 'users',
-      recordId: data.user.id,
-      data: {
-        username,
-        name,
-      },
+    await updateCollectionRecord('users', data.user.id, {
+      username,
+      name,
     })
 
-    await updateCollectionRecord({
-      collectionName: 'settings',
-      recordId: data.settings.id,
-      data: {
-        about,
-      },
+    await updateCollectionRecord('settings', data.settings.id, {
+      about,
     })
 
     setUsername(username)

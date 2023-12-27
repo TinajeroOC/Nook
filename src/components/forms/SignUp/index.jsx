@@ -4,17 +4,18 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input } from '@nextui-org/react'
 import { IconAt, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { createUser } from '@/actions/user'
+import useSignUp from '@/hooks/useSignUp'
 import { getHostUrl } from '@/lib/utils'
 import { UserValidation } from '@/lib/validations/user'
 
 export default function SignUpForm() {
-  const [isPassVisible, setIsPassVisible] = useState(false)
   const router = useRouter()
-
+  const { onSignUp, isLoading, user, error } = useSignUp()
+  const [isPassVisible, setIsPassVisible] = useState(false)
   const {
     register,
     handleSubmit,
@@ -32,29 +33,20 @@ export default function SignUpForm() {
     resolver: yupResolver(UserValidation),
   })
 
-  const onSubmit = async () => {
-    const { username, name, email, password } = getValues()
-
-    const result = await createUser({
-      username,
-      name,
-      email,
-      password,
-    })
-
-    if (result?.response?.code === 400) {
-      const fields = Object.keys(result?.response?.data)
-
-      fields.forEach((field) => {
-        const { message } = result?.response?.data[field]
-        setError(field, {
-          type: 'required',
-          message,
-        })
+  useEffect(() => {
+    if (error) {
+      toast.error('Unable to sign up', {
+        description: 'Confirm that your username or email are not already taken.',
       })
-    } else {
+    } else if (user) {
+      toast.dismiss()
       router.push('/login')
     }
+  }, [error, user, setError, router])
+
+  const onSubmit = async () => {
+    const { username, name, email, password } = getValues()
+    await onSignUp(username, name, email, password)
   }
 
   return (
@@ -68,7 +60,7 @@ export default function SignUpForm() {
         errorMessage={errors?.username?.message}
         description={
           watch('username') &&
-          `People can view your nook at ${getHostUrl()}/${getValues('username').toLowerCase()}`
+          `People can view your nook at ${getHostUrl()}${getValues('username').toLowerCase()}`
         }
       />
       <Input
@@ -104,7 +96,7 @@ export default function SignUpForm() {
         color={errors?.password ? 'danger' : 'default'}
         errorMessage={errors?.password?.message}
       />
-      <Button fullWidth='true' color='primary' type='submit'>
+      <Button fullWidth='true' color='primary' type='submit' isLoading={isLoading}>
         Create your account
       </Button>
     </form>

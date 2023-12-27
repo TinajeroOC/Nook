@@ -4,14 +4,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input } from '@nextui-org/react'
 import { IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { authenticateUser } from '@/actions/user'
+import useLogIn from '@/hooks/useLogIn'
 import { UserAuthValidation } from '@/lib/validations/user'
 
 export default function LogInForm() {
   const router = useRouter()
+  const { onLogIn, isLoading, user, error } = useLogIn()
   const [isPassVisible, setIsPassVisible] = useState(false)
   const {
     register,
@@ -27,25 +29,20 @@ export default function LogInForm() {
     resolver: yupResolver(UserAuthValidation),
   })
 
-  const onSubmit = async () => {
-    const { email, password } = getValues()
-
-    const result = await authenticateUser({
-      email,
-      password,
-    })
-
-    if (result?.response?.code === 400) {
-      setError('email', {
-        type: 'required',
+  useEffect(() => {
+    if (error) {
+      toast.error('Unable to log in', {
+        description: 'Confirm that your credentials are correct.',
       })
-      setError('password', {
-        type: 'required',
-        message: 'Incorrect username or password',
-      })
-    } else {
+    } else if (user) {
+      toast.dismiss()
       router.push('/dashboard')
     }
+  }, [error, user, setError, router])
+
+  const onSubmit = async () => {
+    const { email, password } = getValues()
+    await onLogIn(email, password)
   }
 
   return (
@@ -75,7 +72,7 @@ export default function LogInForm() {
         color={errors?.password ? 'danger' : 'default'}
         errorMessage={errors?.password?.message}
       />
-      <Button fullWidth='true' color='primary' type='submit'>
+      <Button fullWidth='true' color='primary' type='submit' isLoading={isLoading}>
         Log in to your account
       </Button>
     </form>

@@ -49,14 +49,10 @@ export default function AppearanceCard({ data }) {
   const onSubmit = async () => {
     const { theme, useGradientBg, isNameVisible } = getValues()
 
-    await updateCollectionRecord({
-      collectionName: 'settings',
-      recordId: data.settings.id,
-      data: {
-        theme,
-        useGradientBg,
-        isNameVisible,
-      },
+    await updateCollectionRecord('settings', data.settings.id, {
+      theme,
+      useGradientBg,
+      isNameVisible,
     })
   }
 

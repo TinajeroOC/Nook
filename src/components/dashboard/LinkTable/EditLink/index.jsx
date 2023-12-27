@@ -44,15 +44,11 @@ export default function EditLink({ link, setLinks }) {
     const { title, description, url, isVisible } = getValues()
     const { id, user } = link
 
-    await updateCollectionRecord({
-      collectionName: 'links',
-      recordId: id,
-      data: {
-        title,
-        description,
-        url,
-        isVisible,
-      },
+    await updateCollectionRecord('links', id, {
+      title,
+      description,
+      url,
+      isVisible,
     })
 
     setLinks((links) =>
