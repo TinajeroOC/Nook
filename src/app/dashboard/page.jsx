@@ -36,7 +36,7 @@ export default async function Page() {
   const data = { user, settings, links }
 
   return (
-    <div className='flex flex-col-reverse sm:grid sm:grid-cols-12 sm:gap-8'>
+    <div className='flex flex-col-reverse gap-8 sm:grid sm:grid-cols-12'>
       <div className='col-start-1 col-end-8 flex flex-col md:col-end-9'>
         <LinkTable data={data} />
       </div>
