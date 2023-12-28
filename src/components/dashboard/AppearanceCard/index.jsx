@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  cn,
   Modal,
   ModalBody,
   ModalContent,
@@ -15,7 +14,6 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  Switch,
   useDisclosure,
 } from '@nextui-org/react'
 import { useEffect } from 'react'
@@ -23,6 +21,7 @@ import { useForm } from 'react-hook-form'
 
 import { updateCollectionRecord } from '@/actions/data'
 import Dot from '@/components/common/Dot'
+import LabelledSwitch from '@/components/common/LabelledSwitch'
 import SettingField from '@/components/dashboard/SettingField'
 import { ColorClasses } from '@/lib/constants/theme'
 import { AppearanceValidation } from '@/lib/validations/settings'
@@ -117,7 +116,7 @@ export default function AppearanceCard({ data }) {
                       errorMessage={errors?.theme?.message}
                     >
                       {(theme) => (
-                        <SelectItem key={theme.color}>
+                        <SelectItem key={theme.color} textValue={theme.color}>
                           <div className='flex flex-row items-center gap-2 capitalize'>
                             <Dot color={theme.color} />
                             {theme.color}
@@ -125,60 +124,24 @@ export default function AppearanceCard({ data }) {
                         </SelectItem>
                       )}
                     </Select>
-                    <Switch
+                    <LabelledSwitch
                       {...register('useGradientBg')}
+                      label='Enable gradient background'
+                      description='Set your background to be a gradient'
                       defaultSelected={defaultValues.useGradientBg ? true : false}
                       onValueChange={(isSelected) => {
                         setValue('useGradientBg', isSelected)
                       }}
-                      classNames={{
-                        base: cn(
-                          'inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center',
-                          'justify-between cursor-pointer rounded-lg gap-8 p-1 border-2 border-transparent'
-                        ),
-                        wrapper: 'p-0 h-4 overflow-visible',
-                        thumb: cn(
-                          'w-6 h-6 border-2 shadow-lg',
-                          'group-data-[selected=true]:ml-6',
-                          'group-data-[pressed=true]:w-7',
-                          'group-data-[selected]:group-data-[pressed]:ml-4'
-                        ),
-                      }}
-                    >
-                      <div className='flex flex-col gap-1'>
-                        <p className='text-sm'>Enable gradient background</p>
-                        <p className='text-xs text-default-400'>
-                          Set your background to be a gradient according to your theme color.
-                        </p>
-                      </div>
-                    </Switch>
-                    <Switch
+                    />
+                    <LabelledSwitch
                       {...register('isNameVisible')}
+                      label='Enable name visibility'
+                      description='Allow others to see your full name'
                       defaultSelected={defaultValues.isNameVisible ? true : false}
                       onValueChange={(isSelected) => {
                         setValue('isNameVisible', isSelected)
                       }}
-                      classNames={{
-                        base: cn(
-                          'inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center',
-                          'justify-between cursor-pointer rounded-lg gap-8 p-1 border-2 border-transparent'
-                        ),
-                        wrapper: 'p-0 h-4 overflow-visible',
-                        thumb: cn(
-                          'w-6 h-6 border-2 shadow-lg',
-                          'group-data-[selected=true]:ml-6',
-                          'group-data-[pressed=true]:w-7',
-                          'group-data-[selected]:group-data-[pressed]:ml-4'
-                        ),
-                      }}
-                    >
-                      <div className='flex flex-col gap-1'>
-                        <p className='text-sm'>Enable name visibility</p>
-                        <p className='text-xs text-default-400'>
-                          Allow others to see your full name.
-                        </p>
-                      </div>
-                    </Switch>
+                    />
                   </ModalBody>
                   <ModalFooter>
                     <Button color='danger' variant='flat' onPress={onClose}>

@@ -3,14 +3,12 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Button,
-  cn,
   Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Switch,
   Tooltip,
   useDisclosure,
 } from '@nextui-org/react'
@@ -19,6 +17,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { updateCollectionRecord } from '@/actions/data'
+import LabelledSwitch from '@/components/common/LabelledSwitch'
 import { LinkValidation } from '@/lib/validations/link'
 
 export default function EditLink({ link, setLinks }) {
@@ -106,29 +105,13 @@ export default function EditLink({ link, setLinks }) {
                     errorMessage={errors?.url?.message}
                     defaultValue={defaultValues.url}
                   />
-                  <Switch
+                  <LabelledSwitch
                     {...register('isVisible')}
+                    label='Enable visibility'
+                    description='Allow others to see this link'
                     defaultSelected={defaultValues.isVisible ? true : false}
                     onValueChange={(isSelected) => setValue('isVisible', isSelected)}
-                    classNames={{
-                      base: cn(
-                        'inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center',
-                        'justify-between cursor-pointer rounded-xl gap-8 pl-3 py-2 border-2 border-transparent'
-                      ),
-                      wrapper: 'p-0 h-4 overflow-visible',
-                      thumb: cn(
-                        'w-6 h-6 border-2 shadow-lg',
-                        'group-data-[selected=true]:ml-6',
-                        'group-data-[pressed=true]:w-7',
-                        'group-data-[selected]:group-data-[pressed]:ml-4'
-                      ),
-                    }}
-                  >
-                    <div className='flex flex-col gap-1'>
-                      <p className='text-sm text-default-500'>Enable visibility</p>
-                      <p className='text-xs'>Allow others to see this link.</p>
-                    </div>
-                  </Switch>
+                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button color='danger' variant='flat' onPress={onClose}>
