@@ -1,4 +1,4 @@
-import { Avatar, Card, CardBody, CardFooter, Link } from '@nextui-org/react'
+import { Card, CardBody, CardHeader, Link } from '@nextui-org/react'
 import { IconAt } from '@tabler/icons-react'
 
 import { ColorClasses, GradientClasses } from '@/lib/constants/theme'
@@ -33,25 +33,25 @@ export default async function Page({ params }) {
   return (
     <div className='flex flex-col items-center gap-8'>
       <Card fullWidth={true}>
-        <CardBody
+        <CardHeader
           className={`${
             settings.useGradientBg
               ? `bg-gradient-to-tr ${GradientClasses[settings.theme]}`
               : ColorClasses[settings.theme]
           }`}
-        >
-          <Avatar showFallback radius='md' className='h-36 w-36 text-large shadow-md' />
-        </CardBody>
-        <CardFooter className='flex flex-col items-start gap-2'>
+        />
+        <CardBody className='flex flex-col items-start gap-2'>
           <div className='flex flex-col items-start gap-2 sm:flex-row sm:items-center'>
-            <h1 className='inline-flex items-center text-xl font-semibold'>
+            <h1 className='inline-flex items-center font-semibold'>
               <IconAt size='20' stroke='3' />
               {user.username}
             </h1>
-            {settings.isNameVisible && <h1 className='text-default-500'>{user.name}</h1>}
+            {settings.isNameVisible && (
+              <span className='font-semibold text-default-500'>{user.name}</span>
+            )}
           </div>
           {settings.about && <p className='break-all text-default-500'>{settings.about}</p>}
-        </CardFooter>
+        </CardBody>
       </Card>
       <div className='flex w-full flex-col gap-4'>
         {links.map((link, index) => {
@@ -59,11 +59,11 @@ export default async function Page({ params }) {
             return (
               <Card as={Link} isExternal href={link.url} fullWidth={true} key={index}>
                 <CardBody>
-                  <div className='flex flex-row items-center justify-between gap-4'>
+                  <div className='flex flex-row items-center gap-2'>
                     <div>
-                      <span className='font-semibold'>{link.title}</span>
+                      <span>{link.title}</span>
                       {link.description && (
-                        <p className='overflow-clip break-all text-sm text-default-400'>
+                        <p className='overflow-clip break-all text-sm text-default-500'>
                           {link.description}
                         </p>
                       )}
