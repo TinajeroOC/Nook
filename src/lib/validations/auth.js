@@ -1,8 +1,6 @@
 import * as Yup from 'yup'
 
-import { ColorClasses } from '@/lib/constants/theme'
-
-export const ProfileSchema = Yup.object().shape({
+export const SignUpSchema = Yup.object().shape({
   username: Yup.string()
     .min(4, 'Username must be at least 4 characters')
     .max(16, 'Username must be shorter than 16 characters')
@@ -13,11 +11,13 @@ export const ProfileSchema = Yup.object().shape({
     .max(32, 'Name must be shorter than 32 characters')
     .matches(/^[A-Za-z\s]+$/, 'Name must only contain letters')
     .required('Enter your name'),
-  about: Yup.string().max(128, 'About must be shorter than 128 characters'),
+  email: Yup.string().email('Enter a valid email').required('Enter your email'),
+  password: Yup.string()
+    .min(8, 'Password must be at least 8 characters')
+    .required('Enter your password'),
 })
 
-export const AppearanceSchema = Yup.object().shape({
-  theme: Yup.string().oneOf(Object.keys(ColorClasses), 'Theme color selection is invalid'),
-  useGradientBg: Yup.boolean(),
-  useIsNameVisible: Yup.boolean(),
+export const LogInSchema = Yup.object().shape({
+  email: Yup.string().email('Enter a valid email').required('Enter your email'),
+  password: Yup.string().required('Enter your password'),
 })

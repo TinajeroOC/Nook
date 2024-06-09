@@ -1,7 +1,7 @@
 import copy from 'copy-to-clipboard'
 import { useCallback, useEffect, useState } from 'react'
 
-export default function useClipboard(value, timeout = 1500) {
+export function useClipboard(value, timeout = 1500) {
   const [isCopied, setIsCopied] = useState(false)
 
   const onCopy = useCallback(() => {

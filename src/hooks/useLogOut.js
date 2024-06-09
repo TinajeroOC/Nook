@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
-export default function useLogOut() {
+export function useLogOut() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState()
   const pathname = usePathname()

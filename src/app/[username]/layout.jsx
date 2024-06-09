@@ -1,4 +1,4 @@
-import Footer from '@/components/layout/username/Footer'
+import { UsernameFooter } from '@/components/layout/username/Footer'
 
 export default async function Layout({ children }) {
   return (
@@ -6,7 +6,7 @@ export default async function Layout({ children }) {
       <main className='container mx-auto min-h-[calc(100vh_-_56px)] max-w-xl flex-grow p-6'>
         {children}
       </main>
-      <Footer />
+      <UsernameFooter />
     </div>
   )
 }

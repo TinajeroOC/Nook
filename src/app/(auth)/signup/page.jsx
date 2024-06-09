@@ -1,7 +1,7 @@
 import { Button, Link } from '@nextui-org/react'
 import { IconArrowRight } from '@tabler/icons-react'
 
-import SignUpForm from '@/components/forms/SignUp'
+import { SignUpForm } from '@/components/forms/SignUpForm'
 
 export default async function Page() {
   return (

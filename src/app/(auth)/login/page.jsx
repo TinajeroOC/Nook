@@ -1,7 +1,7 @@
 import { Button, Link } from '@nextui-org/react'
 import { IconArrowRight } from '@tabler/icons-react'
 
-import LogInForm from '@/components/forms/LogIn'
+import { LogInForm } from '@/components/forms/LogInForm'
 
 export default async function Page() {
   return (

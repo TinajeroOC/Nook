@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 
-import { authenticateUser } from '@/actions/user'
+import { authenticateUser } from '@/actions/auth'
 
-export default function useLogIn() {
+export function useLogIn() {
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState()
   const [error, setError] = useState()

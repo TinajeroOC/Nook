@@ -1,7 +1,7 @@
 import { Button, commonColors, Link } from '@nextui-org/react'
 import { IconArrowRight } from '@tabler/icons-react'
 
-export default function Footer() {
+export function UsernameFooter() {
   return (
     <footer className='mx-auto max-w-xl px-6 pb-6'>
       <div className='flex flex-row justify-center gap-2'>

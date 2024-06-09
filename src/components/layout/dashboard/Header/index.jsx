@@ -2,11 +2,11 @@
 
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 
-import ThemeSwitch from '@/components/common/ThemeSwitch'
-import useLogOut from '@/hooks/useLogOut'
+import { ThemeSwitch } from '@/components/ui/ThemeSwitch'
+import { useLogOut } from '@/hooks/useLogOut'
 
-export default function Header() {
-  const { onLogOut, isLoading, error } = useLogOut()
+export function DashboardHeader() {
+  const { onLogOut, isLoading } = useLogOut()
 
   return (
     <Navbar isBordered height='4.5rem'>
